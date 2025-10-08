@@ -17,3 +17,7 @@ mark{background:#234e77;color:inherit;padding:0 .15em;border-radius:4px}
 button{cursor:pointer;background:#0e141d;border:1px solid #202838;color:var(--text);padding:8px 10px;border-radius:10px}
 button.copy{float:right}
 .presets{display:flex;gap:8px;flex-wrap:wrap}
+/* Notices, spinner, empty state */
+.notice{background:#1a2432;border:1px solid #2a3544;color:#cbd6e2;padding:12px 14px;border-radius:10px;margin:8px 0}
+.spinner{opacity:.85;margin:10px 0}
+.empty{color:var(--muted);margin:14px 0}

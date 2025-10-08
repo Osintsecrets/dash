@@ -7,6 +7,7 @@ DATA = ROOT / "data"
 CFG = DATA / "sources.yml"
 FEED = DATA / "feed.json"
 IDX  = DATA / "search_index.json"
+META = DATA / "meta.json"
 
 DEF_EXCERPT_LEN = 300
 DEF_CONTENT_LEN = 12000
@@ -103,6 +104,7 @@ def main():
     DATA.mkdir(exist_ok=True, parents=True)
     cfg = yaml.safe_load(CFG.read_text(encoding="utf-8"))
 
+    sunnah_key_present = bool(os.environ.get("SUNNAH_API_KEY"))
     quran_items  = fetch_quran(cfg["quran_api"]) if cfg.get("quran_api") else []
     sunnah_items = fetch_sunnah(cfg["sunnah_api"]) if cfg.get("sunnah_api") else []
     items = quran_items + sunnah_items
@@ -114,6 +116,10 @@ def main():
 
     FEED.write_text(json.dumps({"items": cards}, ensure_ascii=False, indent=2), encoding="utf-8")
     IDX.write_text(json.dumps({"items": items}, ensure_ascii=False, indent=2), encoding="utf-8")
+    META.write_text(json.dumps({
+        "generated_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+        "sunnah_status": "ok" if sunnah_key_present else "skipped"
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(f"Quran: {len(quran_items)} | Sunnah: {len(sunnah_items)} | Total: {len(items)}")
 
