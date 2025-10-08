@@ -1,10 +1,24 @@
 import { renderCard } from './ui.js';
 
 async function boot() {
-  // Load full-text index (Qur’an + Hadith)
-  const res = await fetch('./data/search_index.json', { cache: 'no-cache' });
+  const spinner = document.getElementById('spinner');
+  const emptyEl = document.getElementById('empty');
+  const notice = document.getElementById('notice');
+  spinner.hidden = false;
+  // Load meta & full-text index
+  const [metaRes, res] = await Promise.all([
+    fetch('./data/meta.json', { cache: 'no-cache' }).catch(() => null),
+    fetch('./data/search_index.json', { cache: 'no-cache' })
+  ]);
   const data = await res.json();
   const items = data.items;
+  if (metaRes && metaRes.ok) {
+    const meta = await metaRes.json();
+    if (meta.sunnah_status === 'skipped') {
+      notice.hidden = false;
+      notice.textContent = "Heads up: Hadith results may be limited because the Sunnah API key is not configured.";
+    }
+  }
 
   // MiniSearch is provided via assets/vendor/minisearch.min.js (global)
   const mini = new MiniSearch({
@@ -21,6 +35,7 @@ async function boot() {
   const surah = document.getElementById('surah');
   const list  = document.getElementById('list');
   const count = document.getElementById('count');
+  const copyLinkBtn = document.getElementById('copyLink');
 
   // Populate source filter
   [...new Set(items.map(i => i.source))].sort().forEach(s => {
@@ -32,7 +47,21 @@ async function boot() {
     .sort((a, b) => parseInt(a.replace(/\D+/g, ''), 10) - parseInt(b.replace(/\D+/g, ''), 10))
     .forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; surah.appendChild(o); });
 
-  function apply() {
+  function stateToQuery() {
+    const params = new URLSearchParams();
+    if (q.value.trim()) params.set('q', q.value.trim());
+    if (src.value) params.set('src', src.value);
+    if (surah.value) params.set('surah', surah.value);
+    return params.toString();
+  }
+  function loadFromQuery() {
+    const u = new URL(window.location.href);
+    const get = (k)=>u.searchParams.get(k) || '';
+    q.value = get('q');
+    src.value = get('src');
+    surah.value = get('surah');
+  }
+  function apply(push=true) {
     const query = q.value.trim();
     const s = src.value;
     const su = surah.value;
@@ -46,12 +75,19 @@ async function boot() {
 
     count.textContent = results.length;
     list.innerHTML = results.map(renderCard(query)).join('');
+    emptyEl.hidden = results.length !== 0;
+    // Update URL (shareable)
+    if (push) {
+      const qs = stateToQuery();
+      const url = qs ? `?${qs}` : window.location.pathname;
+      history.replaceState(null, '', url);
+    }
   }
 
   // Events
-  q.addEventListener('input', apply);
-  src.addEventListener('change', apply);
-  surah.addEventListener('change', apply);
+  q.addEventListener('input', () => apply(true));
+  src.addEventListener('change', () => apply(true));
+  surah.addEventListener('change', () => apply(true));
 
   // Preset queries (buttons under the search bar)
   const presets = document.getElementById('presets');
@@ -60,7 +96,7 @@ async function boot() {
       const btn = e.target.closest('button[data-q]');
       if (!btn) return;
       q.value = btn.dataset.q || '';
-      apply();
+      apply(true);
     });
   }
 
@@ -76,6 +112,21 @@ async function boot() {
     });
   });
 
-  apply();
+  if (copyLinkBtn) {
+    copyLinkBtn.addEventListener('click', () => {
+      const qs = stateToQuery();
+      const url = qs ? `${window.location.origin}${window.location.pathname}?${qs}` : window.location.href.split('?')[0];
+      navigator.clipboard.writeText(url).then(() => {
+        const prev = copyLinkBtn.textContent;
+        copyLinkBtn.textContent = 'Copied link!';
+        setTimeout(() => { copyLinkBtn.textContent = prev || 'Copy link'; }, 1200);
+      });
+    });
+  }
+
+  // Init from URL, then render
+  loadFromQuery();
+  apply(false);
+  spinner.hidden = true;
 }
 boot();
