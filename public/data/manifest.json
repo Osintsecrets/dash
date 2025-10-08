@@ -1,0 +1,31 @@
+{
+  "assets": [
+    {
+      "id": "quran-surah-009",
+      "type": "quran",
+      "version": "2024.05.01",
+      "bytes": 2048,
+      "sha256": "sample-sha256-value-009",
+      "status": "idle",
+      "priority": 2
+    },
+    {
+      "id": "tafsir-ibn_kathir-009",
+      "type": "tafsir",
+      "version": "2024.05.01",
+      "bytes": 1024,
+      "sha256": "sample-sha256-tafsir-009",
+      "status": "idle",
+      "priority": 3
+    },
+    {
+      "id": "hadith-bukhari-book-67",
+      "type": "hadith",
+      "version": "2024.05.01",
+      "bytes": 1536,
+      "sha256": "sample-sha256-hadith-67",
+      "status": "idle",
+      "priority": 1
+    }
+  ]
+}

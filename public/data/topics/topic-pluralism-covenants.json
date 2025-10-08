@@ -1,0 +1,18 @@
+{
+  "id": "topic-pluralism-covenants",
+  "slug": "pluralism-covenants",
+  "title": "Pluralism & Prophetic Covenants",
+  "description": "Texts cited regarding agreements with non-Muslim communities and maintenance of covenants.",
+  "keywords": ["covenant", "pluralism", "agreements"],
+  "quran": [
+    { "type": "quran", "q": { "surah": 9, "ayah": 4 } }
+  ],
+  "hadith": [
+    { "type": "hadith", "h": { "collection": "bukhari", "book": 56, "number": 3045 } }
+  ],
+  "tafsir": [
+    { "type": "tafsir", "t": { "work_id": "jalalayn", "surah": 9, "ayah": 4 } }
+  ],
+  "notes": "<p>Focuses on treaty obligations and juristic discussions of covenant-breaking, presenting verses alongside classical commentary.</p>",
+  "offline_ready": false
+}

@@ -1,0 +1,31 @@
+{
+  "sources": [
+    {
+      "work": "Qur'an (Arabic - Uthmani script)",
+      "source_id": "quran.com",
+      "attribution": "Quran.com",
+      "canonical_uri": "https://quran.com/",
+      "license": "see https://quran.com/legal",
+      "retrieved_at": "2024-05-01T00:00:00Z",
+      "notes": "Used for Arabic text references and metadata."
+    },
+    {
+      "work": "Sahih International translation",
+      "source_id": "quran.com",
+      "attribution": "Sahih International",
+      "canonical_uri": "https://quran.com/translation/sahih-international",
+      "license": "see https://quran.com/legal",
+      "retrieved_at": "2024-05-01T00:00:00Z",
+      "notes": "Translation excerpt for sample ayāt."
+    },
+    {
+      "work": "Sahih al-Bukhari (Arabic)",
+      "source_id": "sunnah.com",
+      "attribution": "Sunnah.com",
+      "canonical_uri": "https://sunnah.com/",
+      "license": "Usage per Sunnah.com terms",
+      "retrieved_at": "2024-05-01T00:00:00Z",
+      "notes": "Metadata and text excerpts where permitted."
+    }
+  ]
+}

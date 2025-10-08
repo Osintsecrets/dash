@@ -1,0 +1,18 @@
+{
+  "id": "topic-governance-consultation",
+  "slug": "governance-consultation",
+  "title": "Governance & Consultation",
+  "description": "Evidence on shūrā (consultation) and just administration.",
+  "keywords": ["governance", "consultation", "shura"],
+  "quran": [
+    { "type": "quran", "q": { "surah": 42, "ayah": 38 } }
+  ],
+  "hadith": [
+    { "type": "hadith", "h": { "collection": "tirmidhi", "book": 25, "number": 1714 } }
+  ],
+  "tafsir": [
+    { "type": "tafsir", "t": { "work_id": "ibn_kathir", "surah": 42, "ayah": 38 } }
+  ],
+  "notes": "<p>Presents sources on communal consultation and administrative ethics in early Islamic practice.</p>",
+  "offline_ready": false
+}

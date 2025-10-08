@@ -1,0 +1,18 @@
+{
+  "id": "topic-trust-commerce",
+  "slug": "trust-commerce",
+  "title": "Trust & Commercial Ethics",
+  "description": "Texts addressing honest trade, safeguarding trusts, and prohibitions on fraud.",
+  "keywords": ["trust", "commerce", "ethics"],
+  "quran": [
+    { "type": "quran", "q": { "surah": 83, "ayah": 1 } }
+  ],
+  "hadith": [
+    { "type": "hadith", "h": { "collection": "tirmidhi", "book": 12, "number": 1211 } }
+  ],
+  "tafsir": [
+    { "type": "tafsir", "t": { "work_id": "jalalayn", "surah": 83, "ayah": 1 } }
+  ],
+  "notes": "<p>Gathered for case studies on trustworthy trade and prohibitions against cheating in measurement.</p>",
+  "offline_ready": false
+}

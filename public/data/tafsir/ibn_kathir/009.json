@@ -1,0 +1,19 @@
+{
+  "work_id": "ibn_kathir",
+  "surah": 9,
+  "segments": [
+    {
+      "id": "t-ibnkathir-9-29",
+      "ayah": 29,
+      "excerpt": "Ibn Kathīr explains that the jizyah is a tax paid by the People of the Book in return for protection and that they remain under the authority of the Muslim state while retaining their faith.",
+      "sources": [
+        {
+          "source_id": "quran.com",
+          "canonical_uri": "https://quran.com/tafsir/ibn-kathir/9/29",
+          "attribution": "Tafsīr Ibn Kathīr",
+          "license": "see About"
+        }
+      ]
+    }
+  ]
+}

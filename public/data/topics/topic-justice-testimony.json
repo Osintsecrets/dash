@@ -1,0 +1,18 @@
+{
+  "id": "topic-justice-testimony",
+  "slug": "justice-testimony",
+  "title": "Justice & Testimony Standards",
+  "description": "Evidence on fair testimony, legal impartiality, and integrity expectations.",
+  "keywords": ["justice", "testimony", "legal"],
+  "quran": [
+    { "type": "quran", "q": { "surah": 4, "ayah": 135 } }
+  ],
+  "hadith": [
+    { "type": "hadith", "h": { "collection": "muslim", "book": 32, "number": 4542 } }
+  ],
+  "tafsir": [
+    { "type": "tafsir", "t": { "work_id": "ibn_kathir", "surah": 4, "ayah": 135 } }
+  ],
+  "notes": "<p>Pairs verses on standing firm for justice with narrations addressing truthful testimony.</p>",
+  "offline_ready": false
+}

@@ -1,0 +1,18 @@
+{
+  "id": "topic-knowledge-seeking",
+  "slug": "knowledge-seeking",
+  "title": "Seeking Knowledge",
+  "description": "Texts encouraging the pursuit of knowledge and transmission of sound learning.",
+  "keywords": ["knowledge", "learning", "education"],
+  "quran": [
+    { "type": "quran", "q": { "surah": 96, "ayah": 1 } }
+  ],
+  "hadith": [
+    { "type": "hadith", "h": { "collection": "ibnmajah", "book": 17, "number": 224 } }
+  ],
+  "tafsir": [
+    { "type": "tafsir", "t": { "work_id": "jalalayn", "surah": 96, "ayah": 1 } }
+  ],
+  "notes": "<p>Used for lessons on literacy, scholarly responsibility, and the virtue of seeking knowledge.</p>",
+  "offline_ready": false
+}

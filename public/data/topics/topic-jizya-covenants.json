@@ -1,0 +1,19 @@
+{
+  "id": "topic-jizya-covenants",
+  "slug": "jizya-and-covenants",
+  "title": "Jizyah Obligations & Covenants",
+  "description": "Primary texts and classical commentary concerning Qur'an 9:29 and community covenants.",
+  "keywords": ["jizya", "covenant", "people of the book"],
+  "quran": [
+    { "type": "quran", "q": { "surah": 9, "ayah": 29 } }
+  ],
+  "hadith": [
+    { "type": "hadith", "h": { "collection": "bukhari", "book": 67, "number": 1234 } }
+  ],
+  "tafsir": [
+    { "type": "tafsir", "t": { "work_id": "ibn_kathir", "surah": 9, "ayah": 29 } },
+    { "type": "tafsir", "t": { "work_id": "jalalayn", "surah": 9, "ayah": 29 } }
+  ],
+  "notes": "<p>This bundle presents primary passages and recognized commentarial excerpts for study. It highlights how jurists described contractual obligations under jizyah arrangements.</p>",
+  "offline_ready": false
+}
