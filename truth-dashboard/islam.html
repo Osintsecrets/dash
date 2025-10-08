@@ -10,12 +10,17 @@
   <header class="site">
     <div class="container">
       <h1>Islam Module</h1>
-      <p class="muted">Search Qur'an (select translations) and authentic hadith (Bukhari/Muslim). All results link to the original pages.</p>
+      <p class="muted">Search Qur'an (selected translations) and authentic hadith (Kutub al-Sittah). All results link to the original pages.</p>
       <p><span class="badge"><span id="count">0</span> results</span></p>
       <div class="controls">
         <input id="q" type="search" placeholder="Search verses & hadith…" aria-label="Search">
         <select id="src" aria-label="Filter by source"><option value="">All sources</option></select>
         <select id="surah" aria-label="Filter by surah"><option value="">All surahs</option></select>
+        <div id="presets" class="presets">
+          <button data-q='"no compulsion"'>No compulsion</button>
+          <button data-q="People of the Book">People of the Book</button>
+          <button data-q="intention deeds">Intentions</button>
+        </div>
       </div>
     </div>
   </header>
