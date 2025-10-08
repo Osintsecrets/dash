@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Card, Skeleton } from '@/components/ui';
 import type { TafsirSegment } from '@/lib/types';
 import { getTafsirByAyah } from '@/lib/db';
 
@@ -14,30 +15,36 @@ export default function TafsirPanel({ surah, ayah }: { surah: number; ayah: numb
   }, [surah, ayah]);
 
   if (!segments) {
-    return <div className="card">Loading tafsīr…</div>;
+    return (
+      <Card className="space-y-3" aria-live="polite">
+        <h3 className="text-lg font-semibold text-white">Tafsīr</h3>
+        <Skeleton className="h-6 w-40" />
+        <Skeleton className="h-28 w-full" />
+      </Card>
+    );
   }
 
   if (segments.length === 0) {
     return (
-      <div className="card">
+      <Card>
         No tafsīr excerpts available locally for {surah}:{ayah}. Download more works or open the online context.
-      </div>
+      </Card>
     );
   }
 
   return (
-    <section className="card">
-      <h3 className="mb-2 text-lg">Tafsīr</h3>
+    <Card className="space-y-4">
+      <h3 className="text-lg font-semibold text-white">Tafsīr</h3>
       <ul className="grid gap-4">
         {segments.map((segment) => (
-          <li key={segment.id} className="grid gap-2">
-            <div className="text-sm text-slate-400">{segment.work_id} on {segment.surah}:{segment.ayah}</div>
-            <div className="prose prose-invert max-w-none">
-              <p>{segment.excerpt}</p>
+          <li key={segment.id} className="space-y-2 rounded-2xl border border-white/5 bg-white/5 p-4">
+            <div className="text-xs uppercase tracking-wide text-slate-400">
+              {segment.work_id} · {segment.surah}:{segment.ayah}
             </div>
+            <p className="text-sm leading-relaxed text-slate-100">{segment.excerpt}</p>
           </li>
         ))}
       </ul>
-    </section>
+    </Card>
   );
 }

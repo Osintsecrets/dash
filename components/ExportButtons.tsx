@@ -1,14 +1,22 @@
 'use client';
 
+import { Button } from '@/components/ui';
+import { useToast } from '@/components/ToastProvider';
 import { toPDF } from '@/lib/export';
 
 type ExportGetter = () => Promise<{ title: string; md: string }>;
 
 export default function ExportButtons({ getData }: { getData: ExportGetter }) {
+  const { push } = useToast();
+
   async function handleMarkdown() {
-    const { md } = await getData();
-    await navigator.clipboard.writeText(md);
-    alert('Markdown copied to clipboard');
+    const { md, title } = await getData();
+    try {
+      await navigator.clipboard.writeText(md);
+      push({ title: 'Markdown copied', description: `${title} exported to clipboard.` });
+    } catch (error) {
+      push({ title: 'Clipboard unavailable', description: 'Copy failed. Try again or use manual selection.' });
+    }
   }
 
   async function handlePDF() {
@@ -20,16 +28,17 @@ export default function ExportButtons({ getData }: { getData: ExportGetter }) {
     link.download = `${title.replace(/[^a-z0-9_-]+/gi, '-')}.pdf`;
     link.click();
     URL.revokeObjectURL(url);
+    push({ title: 'PDF downloaded', description: `${title} saved to your device.` });
   }
 
   return (
-    <div className="flex gap-2">
-      <button type="button" className="btn" onClick={handleMarkdown}>
+    <div className="flex flex-wrap gap-2">
+      <Button type="button" onClick={handleMarkdown}>
         Copy as Markdown
-      </button>
-      <button type="button" className="btn" onClick={handlePDF}>
+      </Button>
+      <Button type="button" variant="outline" onClick={handlePDF}>
         Download PDF
-      </button>
+      </Button>
     </div>
   );
 }

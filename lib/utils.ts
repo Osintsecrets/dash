@@ -6,6 +6,10 @@ export function parseSlashCommand(input: string): { cmd: string; args: string[] 
   return { cmd, args: parts.slice(1) };
 }
 
+export function cn(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(' ');
+}
+
 export function pathForCommand(cmd: string, args: string[]): string | null {
   switch (cmd) {
     case 'q': {

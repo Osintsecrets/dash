@@ -1,6 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { Button, Input, Textarea, Card } from '@/components/ui';
+import { useToast } from '@/components/ToastProvider';
 import type { Sheet } from '@/lib/types';
 
 interface SheetEditorProps {
@@ -8,6 +10,7 @@ interface SheetEditorProps {
 }
 
 export function SheetEditor({ initialSheet }: SheetEditorProps) {
+  const { push } = useToast();
   const [sheet, setSheet] = useState<Sheet>(
     initialSheet ?? {
       id: 'local-draft',
@@ -33,56 +36,66 @@ export function SheetEditor({ initialSheet }: SheetEditorProps) {
     a.download = `${sheet.title.replace(/\s+/g, '-').toLowerCase()}.md`;
     a.click();
     URL.revokeObjectURL(url);
+    push({ title: 'Markdown exported', description: `${sheet.title} downloaded.` });
+  }
+
+  function printSheet() {
+    window.print();
+    push({ title: 'Print dialog opened', description: 'Use your browser to save as PDF or print.' });
   }
 
   return (
-    <div className="space-y-4">
-      <div className="card space-y-3">
-        <div>
-          <label className="text-xs font-semibold uppercase tracking-wide text-slate-400">Title</label>
-          <input
+    <div className="space-y-5">
+      <Card className="space-y-4">
+        <div className="space-y-2">
+          <label htmlFor="sheet-title" className="text-xs font-semibold uppercase tracking-wide text-brand-muted">
+            Title
+          </label>
+          <Input
+            id="sheet-title"
             value={sheet.title}
             onChange={(event) => setSheet((prev) => ({ ...prev, title: event.target.value }))}
-            className="mt-1 w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-accent"
           />
         </div>
-        <div>
-          <label className="text-xs font-semibold uppercase tracking-wide text-slate-400">Notes (Markdown)</label>
-          <textarea
+        <div className="space-y-2">
+          <label htmlFor="sheet-notes" className="text-xs font-semibold uppercase tracking-wide text-brand-muted">
+            Notes (Markdown)
+          </label>
+          <Textarea
+            id="sheet-notes"
             value={sheet.notes_md}
             onChange={(event) => setSheet((prev) => ({ ...prev, notes_md: event.target.value }))}
-            rows={10}
-            className="mt-1 w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-accent"
+            rows={12}
           />
         </div>
         <div className="flex flex-wrap gap-2">
-          <button type="button" className="btn" onClick={downloadMarkdown}>
+          <Button type="button" onClick={downloadMarkdown}>
             Export Markdown
-          </button>
-          <button type="button" className="btn bg-slate-800/70" onClick={() => window.print()}>
+          </Button>
+          <Button type="button" variant="outline" onClick={printSheet}>
             Print / Save PDF
-          </button>
+          </Button>
         </div>
-      </div>
-      <section className="card space-y-2">
-        <header className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-slate-100">Citations</h3>
-          <p className="text-xs text-slate-400">Add texts via Quick-Draw actions throughout the app.</p>
+      </Card>
+      <Card className="space-y-3">
+        <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <h3 className="text-sm font-semibold text-white">Citations</h3>
+          <p className="text-xs text-slate-400">Add texts via “Add to sheet” actions throughout the app.</p>
         </header>
         {sheet.cites.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-slate-700 p-4 text-sm text-slate-400">
-            No citations yet. Use “Add to sheet” buttons on ayāt or hadith to build your evidence sheet.
+          <p className="rounded-2xl border border-dashed border-white/10 bg-white/5 p-4 text-sm text-slate-400">
+            No citations yet. Use the Read or Hadith views to queue evidence snippets.
           </p>
         ) : (
-          <ul className="space-y-2 text-sm text-slate-200">
+          <ul className="space-y-3 text-sm text-slate-200">
             {sheet.cites.map((cite, index) => (
-              <li key={index} className="rounded-xl border border-slate-800/70 p-3">
+              <li key={index} className="rounded-2xl border border-white/5 bg-white/5 p-3">
                 <pre className="whitespace-pre-wrap text-xs text-slate-300">{JSON.stringify(cite, null, 2)}</pre>
               </li>
             ))}
           </ul>
         )}
-      </section>
+      </Card>
     </div>
   );
 }
