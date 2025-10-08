@@ -11,6 +11,7 @@ import {
   saveSheet,
   getSurah
 } from './db';
+import { buildIndex, search as runSearch } from './search';
 import type { HadithItem, QuranAyah, Sheet, TopicBundle } from './types';
 
 export function useSurah(surah: number) {
@@ -89,4 +90,53 @@ export function useCreateSheet() {
 
 export function useSaveSheet() {
   return useCallback(async (sheet: Sheet) => saveSheet(sheet), []);
+}
+
+export function useSearch(query: string) {
+  const [results, setResults] = useState<any[]>([]);
+
+  useEffect(() => {
+    let canceled = false;
+
+    (async () => {
+      if (!query) {
+        setResults([]);
+        return;
+      }
+      await buildIndex();
+      const output = await runSearch(query);
+      if (!canceled) {
+        setResults(output);
+      }
+    })();
+
+    return () => {
+      canceled = true;
+    };
+  }, [query]);
+
+  return results;
+}
+
+export function useCommandPalette() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const isMac = navigator.platform.toUpperCase().includes('MAC');
+      const key = event.key.toLowerCase();
+      if ((isMac && event.metaKey && key === 'k') || (!isMac && event.ctrlKey && key === 'k')) {
+        event.preventDefault();
+        setOpen((value) => !value);
+      }
+      if (key === 'escape') {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  return { open, setOpen };
 }

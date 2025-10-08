@@ -1,199 +1,161 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import MiniSearch, { type SearchResult } from 'minisearch';
-import type { CanonRef, HadithItem, QuranAyah, TopicBundle } from '@/lib/types';
-import { buildSearchIndex } from '@/lib/search';
+import { useCommandPalette, useSearch } from '@/lib/hooks';
+import { parseSlashCommand, pathForCommand } from '@/lib/utils';
 
-interface CommandPaletteProps {
-  ayahs: QuranAyah[];
-  hadith: HadithItem[];
-  topics: TopicBundle[];
-}
-
-interface Result {
+interface PaletteResult {
   id: string;
   title: string;
   type: string;
-  ref: CanonRef;
+  snippet?: string;
+  meta?: Record<string, unknown>;
 }
 
-const slashCommands = [
-  { key: '/q', description: 'Jump to Qur’an ayah (e.g., /q 9:29)' },
-  { key: '/h', description: 'Jump to hadith (e.g., /h bukhari 1234)' },
-  { key: '/topic', description: 'Open topic bundle (e.g., /topic jizya)' }
-];
+const HELP_RESULT: PaletteResult = {
+  id: 'cmd-help',
+  title: 'Usage: /q <surah>:<ayah> • /h <collection> <number> • /topic <slug>',
+  type: 'help'
+};
 
-export function CommandPalette({ ayahs, hadith, topics }: CommandPaletteProps) {
+export default function CommandPalette() {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = useCommandPalette();
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<Result[]>([]);
-
-  const search = useMemo(() => buildSearchIndex(ayahs, hadith, topics), [ayahs, hadith, topics]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    function onKey(event: KeyboardEvent) {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-        event.preventDefault();
-        setOpen((v) => !v);
-      }
+    if (open) {
+      setTimeout(() => inputRef.current?.focus(), 0);
+    } else {
+      setQuery('');
     }
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
+  }, [open]);
 
-  useEffect(() => {
-    if (!query) {
-      setResults([]);
+  const slashCommand = useMemo(() => parseSlashCommand(query), [query]);
+  const searchQuery = slashCommand ? '' : query;
+  const rawResults = useSearch(searchQuery);
+
+  const slashResults = useMemo(() => {
+    if (!slashCommand) return null;
+    const path = pathForCommand(slashCommand.cmd, slashCommand.args);
+    if (path) {
+      return [
+        {
+          id: `nav-${slashCommand.cmd}-${slashCommand.args.join('-')}`,
+          title: `Go: ${query}`,
+          type: 'nav',
+          meta: { path }
+        }
+      ] satisfies PaletteResult[];
+    }
+    return [HELP_RESULT];
+  }, [slashCommand, query]);
+
+  const results: PaletteResult[] = useMemo(() => {
+    if (slashResults) return slashResults;
+    if (!searchQuery) return [];
+    return (rawResults ?? []).slice(0, 12).map((item: any) => ({
+      id: item.id,
+      title: item.title,
+      type: item.type,
+      snippet: item.snippet,
+      meta: item.meta
+    }));
+  }, [rawResults, slashResults, searchQuery]);
+
+  function closePalette() {
+    setOpen(false);
+  }
+
+  function handlePick(result: PaletteResult) {
+    closePalette();
+    if (result.type === 'nav' && result.meta?.path) {
+      router.push(String(result.meta.path));
       return;
     }
-    if (query.startsWith('/')) {
-      handleSlash(query);
-      return;
-    }
-    const raw = search.search(query) as SearchResult[];
-    setResults(
-      raw.slice(0, 8).map((item) => ({
-        id: item.id as string,
-        title: item.title as string,
-        type: (item.type as string) ?? 'text',
-        ref: item.ref as CanonRef
-      }))
-    );
-  }, [query, search]);
 
-  function handleSlash(value: string) {
-    const parts = value.trim().split(/\s+/);
-    const [cmd, ...rest] = parts;
-    if (!cmd) return;
-    switch (cmd) {
-      case '/q': {
-        const [loc] = rest;
-        if (!loc) return setResults([]);
-        const [surah, ayah] = loc.split(':').map((n) => Number.parseInt(n, 10));
-        if (!surah || !ayah) return setResults([]);
-        setResults([
-          {
-            id: `q-${surah}-${ayah}`,
-            title: `Go to Q ${surah}:${ayah}`,
-            type: 'quran',
-            ref: { type: 'quran', q: { surah, ayah } }
-          }
-        ]);
+    switch (result.type) {
+      case 'quran': {
+        const surah = Number(result.meta?.surah ?? result.meta?.q?.surah ?? 0);
+        const ayah = Number(result.meta?.ayah ?? result.meta?.q?.ayah ?? 0);
+        if (surah && ayah) {
+          router.push(`/read?surah=${surah}&ayah=${ayah}`);
+        } else {
+          router.push('/read');
+        }
         break;
       }
-      case '/h': {
-        const [collection, number] = rest;
-        const hadithNumber = Number.parseInt(number ?? '', 10);
-        if (!collection || Number.isNaN(hadithNumber)) return setResults([]);
-        setResults([
-          {
-            id: `h-${collection}-${hadithNumber}`,
-            title: `Open ${collection} ${hadithNumber}`,
-            type: 'hadith',
-            ref: { type: 'hadith', h: { collection, book: 0, number: hadithNumber } }
-          }
-        ]);
+      case 'tafsir': {
+        const surah = Number(result.meta?.surah ?? 0);
+        const ayah = Number(result.meta?.ayah ?? 0);
+        router.push(surah && ayah ? `/read?surah=${surah}&ayah=${ayah}` : '/read');
         break;
       }
-      case '/topic': {
-        const [slug] = rest;
-        if (!slug) return setResults([]);
-        const topic = topics.find((t) => t.slug === slug);
-        if (!topic) return setResults([]);
-        setResults([
-          {
-            id: topic.id,
-            title: `Open topic: ${topic.title}`,
-            type: 'topic',
-            ref: { type: 'quran', q: topic.quran[0]?.q }
-          }
-        ]);
+      case 'hadith': {
+        const collection = result.meta?.collection as string | undefined;
+        const number = result.meta?.number as number | undefined;
+        const book = result.meta?.book as number | undefined;
+        if (collection && typeof number === 'number') {
+          const params = new URLSearchParams({ collection, number: String(number) });
+          if (typeof book === 'number') params.set('book', String(book));
+          router.push(`/hadith?${params.toString()}`);
+        } else {
+          router.push('/hadith');
+        }
+        break;
+      }
+      case 'topic': {
+        const slug = result.meta?.slug as string | undefined;
+        router.push(slug ? `/topics/${slug}` : '/topics');
         break;
       }
       default:
-        setResults([]);
+        break;
     }
   }
 
-  function handleSelect(result: Result) {
-    setOpen(false);
-    setQuery('');
-    if (result.type === 'topic') {
-      const topic = topics.find((t) => t.id === result.id);
-      if (topic) router.push(`/topics/${topic.slug}`);
-    } else if (result.type === 'quran' && result.ref.q) {
-      router.push(`/read?surah=${result.ref.q.surah}&ayah=${result.ref.q.ayah}`);
-    } else if (result.type === 'hadith' && result.ref.h) {
-      router.push(`/hadith?collection=${result.ref.h.collection}&number=${result.ref.h.number}`);
-    }
-  }
+  if (!open) return null;
 
   return (
-    <div>
-      <button
-        type="button"
-        className="btn w-full justify-between bg-slate-900/70"
-        onClick={() => setOpen(true)}
-      >
-        <span>Search or run a command (Ctrl/Cmd + K)</span>
-      </button>
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-slate-950/70 px-4 py-20">
-          <div className="w-full max-w-2xl rounded-2xl bg-slate-900 p-4 shadow-xl">
-            <div className="flex items-center gap-2">
-              <input
-                autoFocus
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search Qur’an, hadith, or type / for commands"
-                className="w-full rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-accent"
-              />
-              <button
-                type="button"
-                className="btn bg-slate-800"
-                onClick={() => setOpen(false)}
-              >
-                Close
-              </button>
-            </div>
-            {!query && (
-              <div className="mt-4 grid gap-2 text-sm text-slate-400">
-                {slashCommands.map((cmd) => (
-                  <div key={cmd.key} className="rounded-xl border border-slate-800 px-3 py-2">
-                    <span className="font-mono text-slate-200">{cmd.key}</span> — {cmd.description}
+    <div className="fixed inset-0 z-50 bg-black/60" onClick={closePalette}>
+      <div className="mx-auto mt-24 w-full max-w-2xl" onClick={(event) => event.stopPropagation()}>
+        <div className="card space-y-3">
+          <input
+            ref={inputRef}
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search or type / for commands… (Cmd/Ctrl+K)"
+            className="w-full rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-accent"
+          />
+          <ul className="max-h-80 overflow-auto rounded-xl border border-slate-800 bg-slate-900/60">
+            {results.length === 0 && (
+              <li className="px-4 py-6 text-center text-sm text-slate-400">
+                Type to search Qur’an ayāt, tafsīr excerpts, hadith, or run /commands.
+              </li>
+            )}
+            {results.map((result) => (
+              <li key={result.id}>
+                <button
+                  type="button"
+                  className="flex w-full flex-col gap-1 px-4 py-3 text-left text-sm transition hover:bg-slate-800/80"
+                  onClick={() => handlePick(result)}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="badge uppercase text-slate-300">{result.type}</span>
+                    <span className="font-medium text-slate-100">{result.title}</span>
                   </div>
-                ))}
-              </div>
-            )}
-            {query && (
-              <ul className="mt-4 space-y-2">
-                {results.map((result) => (
-                  <li key={result.id}>
-                    <button
-                      type="button"
-                      className="w-full rounded-xl border border-slate-800 bg-slate-800/60 px-3 py-2 text-left text-sm hover:bg-slate-700"
-                      onClick={() => handleSelect(result)}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-slate-100">{result.title}</span>
-                        <span className="badge uppercase text-slate-300">{result.type}</span>
-                      </div>
-                    </button>
-                  </li>
-                ))}
-                {results.length === 0 && (
-                  <li className="rounded-xl border border-slate-800 bg-slate-900/70 px-3 py-6 text-center text-sm text-slate-500">
-                    No matches found.
-                  </li>
-                )}
-              </ul>
-            )}
-          </div>
+                  {result.snippet && (
+                    <p className="text-xs text-slate-400">{result.snippet}</p>
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div className="text-right text-xs text-slate-500">Esc to close</div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
