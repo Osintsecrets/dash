@@ -1,5 +1,50 @@
 import { renderCard } from './ui.js';
 
+async function copyWithFallback(text) {
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    try {
+      await navigator.clipboard.writeText(text);
+      return 'success';
+    } catch (err) {
+      // Continue to legacy copy method.
+    }
+  }
+
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  textarea.style.top = '0';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+
+  const selection = document.getSelection();
+  const prevRange = selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+  textarea.select();
+  textarea.setSelectionRange(0, textarea.value.length);
+
+  let copied = false;
+  try {
+    copied = document.execCommand('copy');
+  } catch (err) {
+    copied = false;
+  }
+
+  document.body.removeChild(textarea);
+  if (prevRange && selection) {
+    selection.removeAllRanges();
+    selection.addRange(prevRange);
+  }
+
+  if (!copied) {
+    window.prompt('Copy this text and press Enter:', text);
+    return 'prompt';
+  }
+
+  return 'success';
+}
+
 async function boot() {
   const spinner = document.getElementById('spinner');
   const emptyEl = document.getElementById('empty');
@@ -101,26 +146,24 @@ async function boot() {
   }
 
   // Copy citation (event delegation)
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', async (e) => {
     const b = e.target.closest('button.copy');
     if (!b) return;
     const cite = b.dataset.cite || '';
-    navigator.clipboard.writeText(cite).then(() => {
-      const prev = b.textContent;
-      b.textContent = 'Copied';
-      setTimeout(() => { b.textContent = prev || 'Copy citation'; }, 1200);
-    });
+    const prev = b.textContent;
+    const result = await copyWithFallback(cite);
+    b.textContent = result === 'success' ? 'Copied' : 'Copy manually';
+    setTimeout(() => { b.textContent = prev || 'Copy citation'; }, 1600);
   });
 
   if (copyLinkBtn) {
-    copyLinkBtn.addEventListener('click', () => {
+    copyLinkBtn.addEventListener('click', async () => {
       const qs = stateToQuery();
       const url = qs ? `${window.location.origin}${window.location.pathname}?${qs}` : window.location.href.split('?')[0];
-      navigator.clipboard.writeText(url).then(() => {
-        const prev = copyLinkBtn.textContent;
-        copyLinkBtn.textContent = 'Copied link!';
-        setTimeout(() => { copyLinkBtn.textContent = prev || 'Copy link'; }, 1200);
-      });
+      const prev = copyLinkBtn.textContent;
+      const result = await copyWithFallback(url);
+      copyLinkBtn.textContent = result === 'success' ? 'Copied link!' : 'Copy manually';
+      setTimeout(() => { copyLinkBtn.textContent = prev || 'Copy link'; }, 1600);
     });
   }
 
