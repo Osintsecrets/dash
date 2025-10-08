@@ -1,35 +1,23 @@
-/* global workbox */
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
+const CACHE = 'sr-cache-v2-shell';
+const ASSETS = ['/', '/manifest.json', '/icons/icon.svg'];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches
+      .open(CACHE)
+      .then((cache) => cache.addAll(ASSETS))
+      .then(() => self.skipWaiting())
+  );
 });
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-sw.js');
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim());
+});
 
-workbox.core.clientsClaim();
-
-workbox.precaching.precacheAndRoute(self.__WB_MANIFEST || []);
-
-workbox.routing.registerRoute(
-  ({ request }) => request.destination === 'document',
-  new workbox.strategies.NetworkFirst({ cacheName: 'pages' })
-);
-
-workbox.routing.registerRoute(
-  ({ url }) => url.pathname.startsWith('/data/'),
-  new workbox.strategies.CacheFirst({
-    cacheName: 'data-assets',
-    plugins: [
-      new workbox.expiration.ExpirationPlugin({
-        maxEntries: 100,
-        maxAgeSeconds: 60 * 60 * 24 * 30
-      })
-    ]
-  })
-);
-
-workbox.routing.registerRoute(
-  ({ request }) => request.destination === 'image',
-  new workbox.strategies.StaleWhileRevalidate({ cacheName: 'images' })
-);
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  if (url.pathname.startsWith('/data/')) {
+    return;
+  }
+  event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
+});
