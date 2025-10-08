@@ -1,39 +1,12 @@
-# Truth Dashboard
+# Truth Dashboard (v2.0)
+Static, citation-first reference hub (GitHub Pages). Phase 1 focuses on Islam sources using official APIs (Quran.com v4 and Sunnah.com). Includes:
+- **Islam Search**: full-text local search over Qur’an (selected translation) + hadith (if Sunnah API key set).
+- **Arguments**: curated “argument packs” you author in `data/collections/arguments.json` that point to scriptural citations and render exportable lists.
 
-Truth Dashboard is a static, citation-first research aid that collates primary religious sources with respectful context. The current focus is the Islam module, which lets you search curated Qur'an verses and authentic hadith with fast client-side filtering.
+**Data pipeline**: `.github/workflows/fetch.yml` calls `scripts/build_corpus.py` → writes `data/search_index.json`, `data/feed.json`, `data/meta.json`.
 
-## Repository Layout
-- `index.html`, `islam.html`, `assets/`, `data/`: Deployed static site.
-- `truth-dashboard/`: Source tree containing documentation, build scripts, and vendor libraries.
-- `AUDIT.md`: Continuous-improvement checklist produced from a full project audit.
+**Set secret**: Settings → Secrets → Actions → `SUNNAH_API_KEY`.
 
-## Quick Start
-1. Install Python 3.11+ and Node.js 18+.
-2. Create and activate a virtual environment, then install Python deps:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Export your Sunnah API key (required for hadith content):
-   ```bash
-   export SUNNAH_API_KEY=your_key
-   ```
-4. Generate fresh data:
-   ```bash
-   python truth-dashboard/scripts/build_corpus.py
-   ```
-5. Serve the site locally, e.g.:
-   ```bash
-   python -m http.server 8000
-   ```
-   and open `http://localhost:8000/index.html`.
+Run locally: any static server (`python -m http.server`), then open `/index.html`.
 
-## Deployment
-The site is optimized for static hosting (e.g., GitHub Pages, Netlify). Ensure the `data/` directory is refreshed before publishing. Automate regeneration via CI/CD to keep the corpus current.
-
-## Contributing
-- Review `AUDIT.md` for prioritized improvements (testing, accessibility, security).
-- Run formatting and tests before opening a PR.
-- Respect the editorial policy: cite primary sources, keep language neutral, and honor publisher guidelines.
-
-## License
-MIT. See [`truth-dashboard/LICENSE`](truth-dashboard/LICENSE).
+Editorial policy: citation-first. We aggregate IDs, excerpts, and canonical links; readers are sent to original sources. No scraping.

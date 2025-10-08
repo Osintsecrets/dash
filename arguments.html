@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Truth Dashboard — Arguments</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="./assets/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header class="site">
+    <div class="container">
+      <h1>Arguments</h1>
+      <nav class="nav">
+        <a href="./index.html">Home</a>
+        <a href="./islam.html">Islam search</a>
+        <a href="./arguments.html" aria-current="page">Arguments</a>
+        <a href="https://github.com/Osintsecrets/PRIVACY" target="_blank" rel="noopener">Repo</a>
+      </nav>
+      <p class="muted">Curated argument packs with citations. Author packs in <code>data/collections/arguments.json</code>; they render here and can be exported.</p>
+      <div class="controls">
+        <input id="argq" type="search" placeholder="Search arguments…" aria-label="Search arguments">
+        <select id="argTopic"><option value="">All topics</option></select>
+        <select id="argTag"><option value="">All tags</option></select>
+        <button id="exportMd">Export as Markdown</button>
+        <button id="copyList">Copy to clipboard</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <div id="argList"></div>
+    <div id="argEmpty" class="empty" hidden>No arguments match.</div>
+  </main>
+  <footer class="footer"><div class="container">© 2025 Truth Dashboard • MIT License</div></footer>
+
+  <script type="module">
+    import { readJSON, mdEscape } from './assets/app.js';
+    import { highlight } from './assets/ui.js';
+
+    const argq = document.getElementById('argq');
+    const topicSel = document.getElementById('argTopic');
+    const tagSel = document.getElementById('argTag');
+    const list = document.getElementById('argList');
+    const empty = document.getElementById('argEmpty');
+    const exportBtn = document.getElementById('exportMd');
+    const copyBtn = document.getElementById('copyList');
+
+    const packs = await readJSON('./data/collections/arguments.json', {arguments:[]});
+    const index = await readJSON('./data/search_index.json', {items:[]});
+
+    // Populate filters
+    const topics = [...new Set((packs.arguments||[]).map(a=>a.topic).filter(Boolean))].sort();
+    topics.forEach(t => { const o=document.createElement('option'); o.value=t; o.textContent=t; topicSel.appendChild(o); });
+    const tags = [...new Set((packs.arguments||[]).flatMap(a=>a.tags||[]))].sort();
+    tags.forEach(t => { const o=document.createElement('option'); o.value=t; o.textContent=t; tagSel.appendChild(o); });
+
+    function resolveRefs(refs){
+      // ref format: { id?: "q:2:256" | "s:bukhari:1", url?: "...", label?: "Qur'an 2:256" }
+      return (refs||[]).map(r => {
+        if (r.url) return { ...r, title: r.label||r.url, url: r.url };
+        if (r.id){
+          const hit = index.items.find(i => i.id === r.id || i.title?.includes(r.id) || i.url?.includes(r.id));
+          if (hit) return { title: hit.title, url: hit.url, excerpt: hit.excerpt, source: hit.source };
+        }
+        return { title: r.label || r.id || '(unresolved)', url: '' };
+      });
+    }
+
+    function render(){
+      const q = (argq.value||'').toLowerCase().trim();
+      const t = topicSel.value;
+      const g = tagSel.value;
+      let rows = packs.arguments || [];
+      if (q) rows = rows.filter(a => (a.title+a.summary+(a.topic||'')+(a.tags||[]).join(' ')).toLowerCase().includes(q));
+      if (t) rows = rows.filter(a => a.topic === t);
+      if (g) rows = rows.filter(a => (a.tags||[]).includes(g));
+
+      list.innerHTML = rows.map(a => {
+        const refs = resolveRefs(a.refs);
+        const refHtml = refs.map(r => `
+          <li>${r.url ? `<a href="${r.url}" target="_blank" rel="noopener">${r.title}</a>` : r.title}
+              ${r.source?`<span class="meta"> • ${r.source}</span>`:''}
+              ${r.excerpt?`<div class="muted">${highlight(r.excerpt, argq.value)}</div>`:''}
+          </li>`).join('');
+        const tagHtml = (a.tags||[]).map(x=>`<span class="chip">${x}</span>`).join(' ');
+        return `
+          <article class="card">
+            <header>
+              <h3>${highlight(a.title,argq.value)}</h3>
+              <div class="meta">${a.topic?`<span>${a.topic}</span>`:''} ${tagHtml}</div>
+            </header>
+            <p>${highlight(a.summary || '', argq.value)}</p>
+            <details><summary>References</summary><ul>${refHtml||'<li class="muted">None</li>'}</ul></details>
+          </article>`;
+      }).join('');
+
+      empty.hidden = rows.length !== 0;
+    }
+
+    function toMarkdown(){
+      const rows = list.querySelectorAll('.card');
+      const md = ['# Arguments\n'];
+      rows.forEach(card => {
+        const h = card.querySelector('h3')?.textContent || '';
+        const p = card.querySelector('p')?.textContent || '';
+        md.push(`## ${mdEscape(h)}\n\n${mdEscape(p)}\n`);
+        const lis = [...card.querySelectorAll('details ul li')];
+        if (lis.length){
+          md.push('**References**');
+          lis.forEach(li=>{
+            const a = li.querySelector('a');
+            const txt = a ? `[${mdEscape(a.textContent)}](${a.href})` : mdEscape(li.textContent.trim());
+            md.push(`- ${txt}`);
+          });
+          md.push('');
+        }
+      });
+      return md.join('\n');
+    }
+
+    argq.addEventListener('input', render);
+    topicSel.addEventListener('change', render);
+    tagSel.addEventListener('change', render);
+    exportBtn.addEventListener('click', () => {
+      const blob = new Blob([toMarkdown()], {type:'text/markdown'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'arguments.md'; a.click(); URL.revokeObjectURL(url);
+    });
+    copyBtn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(toMarkdown());
+      copyBtn.textContent = 'Copied'; setTimeout(()=>copyBtn.textContent='Copy to clipboard', 1200);
+    });
+
+    render();
+  </script>
+</body>
+</html>
