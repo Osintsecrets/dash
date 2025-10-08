@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { TopicCard } from '@/components/TopicCard';
-import { GlowButton, Card } from '@/components/ui';
+import { GlowButton, Card, GlowBorderCard } from '@/components/ui';
 import { loadTopics } from '@/lib/server-data';
 
 export default async function HomePage() {
@@ -41,6 +41,20 @@ export default async function HomePage() {
           </p>
         </div>
       </Card>
+      <section className="space-y-3">
+        <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-lg font-semibold text-white">Popular this month</h2>
+          <p className="text-xs text-slate-400">Curated quick picks based on reader activity.</p>
+        </header>
+        <div className="flex flex-wrap gap-4">
+          <Link href="/topics/jizya-covenants/" className="focus:outline-none">
+            <GlowBorderCard heading="Jizya & Covenants" lines={["Open topic", "Study"]} />
+          </Link>
+          <Link href="/topics/marital-discord-reconciliation/" className="focus:outline-none">
+            <GlowBorderCard heading="Marital Discord" lines={["Primary texts", "Open"]} />
+          </Link>
+        </div>
+      </section>
       <section className="space-y-3">
         <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-lg font-semibold text-white">Topic bundles</h2>
