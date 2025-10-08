@@ -2,6 +2,7 @@ import type { Metadata, Route } from 'next';
 import Link from 'next/link';
 import './globals.css';
 import { PwaRegister } from '@/components/PwaRegister';
+import CommandPalette from '@/components/CommandPalette';
 
 export const metadata: Metadata = {
   title: 'Neutral Scripture Research',
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     {item.label}
                   </Link>
                 ))}
+                <span className="hidden rounded-lg px-3 py-2 text-xs text-slate-400 sm:inline-flex">Cmd/Ctrl + K</span>
               </nav>
             </div>
           </header>
@@ -49,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             Primary texts and recognized interpretations are shown for study. This platform does not endorse harassment or discrimination.
           </footer>
         </div>
+        <CommandPalette />
       </body>
     </html>
   );

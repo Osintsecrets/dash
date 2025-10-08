@@ -1,13 +1,8 @@
-import { CommandPalette } from '@/components/CommandPalette';
 import { TopicCard } from '@/components/TopicCard';
-import { loadSampleAyahs, loadSampleHadith, loadTopics } from '@/lib/server-data';
+import { loadTopics } from '@/lib/server-data';
 
 export default async function HomePage() {
-  const [topics, ayahs, hadith] = await Promise.all([
-    loadTopics(),
-    loadSampleAyahs(),
-    loadSampleHadith()
-  ]);
+  const topics = await loadTopics();
 
   return (
     <div className="space-y-6">
@@ -17,7 +12,6 @@ export default async function HomePage() {
           This platform exposes primary sources, recognized interpretations, and provenance metadata to help researchers prepare
           neutral evidence sheets. Use the command palette for quick access to Qur’an ayāt, hadith narrations, and topic bundles.
         </p>
-        <CommandPalette ayahs={ayahs} hadith={hadith} topics={topics} />
       </section>
       <section className="space-y-3">
         <header className="flex items-center justify-between">

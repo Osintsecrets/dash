@@ -8,6 +8,7 @@ import {
   importTafsirWorkFromJson,
   importTopicFromJson
 } from '@/lib/loaders';
+import { clearIndex } from '@/lib/search';
 
 export default function DownloadsPage() {
   const [log, setLog] = useState<string[]>([]);
@@ -26,6 +27,7 @@ export default function DownloadsPage() {
       await importTopicFromJson('/data/topics/topic-jizya.json');
       await importTopicFromJson('/data/topics/topic-marital-discord.json');
       push('Done.');
+      clearIndex();
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       push(`Error: ${message}`);
