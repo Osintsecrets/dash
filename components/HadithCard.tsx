@@ -53,7 +53,13 @@ export function HadithCard({ item }: HadithCardProps) {
       )}
       {item.sources.length > 0 && (
         <footer className="text-xs text-slate-400">
-          Source: {item.sources.map((src) => `${src.attribution}${src.canonical_uri ? ` · ${src.canonical_uri}` : ''}`).join(' | ')}
+          Source:{' '}
+          {item.sources
+            .map((src) => {
+              const name = src.attribution ?? src.source_id;
+              return src.canonical_uri ? `${name} · ${src.canonical_uri}` : name;
+            })
+            .join(' | ')}
         </footer>
       )}
     </article>

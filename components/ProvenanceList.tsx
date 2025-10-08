@@ -9,9 +9,9 @@ export function ProvenanceList({ sources }: ProvenanceListProps) {
     <dl className="grid gap-4 text-sm text-slate-200">
       {sources.map((source) => (
         <div key={`${source.source_id}-${source.canonical_uri ?? ''}`} className="rounded-xl border border-slate-800/70 p-4">
-          <dt className="font-semibold text-slate-100">{source.work ?? source.attribution}</dt>
+          <dt className="font-semibold text-slate-100">{source.work ?? source.attribution ?? source.source_id}</dt>
           <dd className="mt-2 space-y-1 text-slate-300">
-            <p>Attribution: {source.attribution}</p>
+            <p>Attribution: {source.attribution ?? '—'}</p>
             {source.canonical_uri && (
               <p>
                 Canonical URL:{' '}

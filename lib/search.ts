@@ -52,7 +52,7 @@ export function buildSearchIndex(
       id: topic.id,
       type: 'topic',
       title: topic.title,
-      text: [topic.description, topic.notes ?? '', topic.keywords.join(' ')].join(' \n '),
+      text: [topic.description, topic.notes ?? '', (topic.keywords ?? []).join(' ')].join(' \n '),
       ref: { type: 'quran', q: topic.quran[0]?.q }
     });
   }

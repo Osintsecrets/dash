@@ -13,7 +13,7 @@ export function TopicCard({ topic }: TopicCardProps) {
         {topic.offline_ready ? <span className="badge bg-emerald-500/20 text-emerald-300">Offline</span> : null}
       </div>
       <p className="text-sm text-slate-300">{topic.description}</p>
-      {topic.keywords.length > 0 && (
+      {topic.keywords && topic.keywords.length > 0 && (
         <p className="text-xs uppercase tracking-wide text-slate-500">{topic.keywords.join(' · ')}</p>
       )}
     </Link>
