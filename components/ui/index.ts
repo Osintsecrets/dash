@@ -8,6 +8,7 @@ export * from './Switch';
 export * from './Textarea';
 export * from './Tabs';
 export * from './GlowButton';
+export * from './GlowBorderCard';
 export * from './TogglePill';
 export * from './Tooltip';
 export * from './SearchInput';
