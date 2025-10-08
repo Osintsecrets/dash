@@ -30,7 +30,14 @@ export async function fetchTopicIndex(): Promise<TopicBundle[]> {
 
 export async function fetchManifest(): Promise<{ assets: DownloadAsset[] }> {
   const res = await fetch('/data/manifest.json');
-  if (!res.ok) return { assets: [] };
+  if (!res.ok) {
+    throw new Error(`Failed to load manifest (status ${res.status})`);
+  }
+
   const data = await res.json();
+  if (!data || !Array.isArray(data.assets)) {
+    throw new Error('Manifest payload is malformed.');
+  }
+
   return data as { assets: DownloadAsset[] };
 }
