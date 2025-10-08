@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Truth Dashboard — Islam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="./assets/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header class="site">
+    <div class="container">
+      <h1>Islam Module</h1>
+      <p class="muted">Search Qur'an (select translations) and authentic hadith (Bukhari/Muslim). All results link to the original pages.</p>
+      <p><span class="badge"><span id="count">0</span> results</span></p>
+      <div class="controls">
+        <input id="q" type="search" placeholder="Search verses & hadith…" aria-label="Search">
+        <select id="src" aria-label="Filter by source"><option value="">All sources</option></select>
+        <select id="surah" aria-label="Filter by surah"><option value="">All surahs</option></select>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <div id="list" aria-live="polite"></div>
+  </main>
+  <footer class="footer"><div class="container">Sources: Quran.com API v4, Sunnah.com API • © 2025 Truth Dashboard</div></footer>
+  <script src="./assets/vendor/minisearch.min.js"></script>
+  <script src="./assets/search.js" type="module"></script>
+</body>
+</html>
