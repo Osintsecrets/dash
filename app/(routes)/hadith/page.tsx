@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { HadithCard } from '@/components/HadithCard';
+import { Card, UiLoaderDots } from '@/components/ui';
+import { HadithClient } from '@/components/HadithClient';
 import { useHadith } from '@/lib/hooks';
 import type { HadithItem } from '@/lib/types';
 import { seedDev } from '@/tools/seed-dev';
@@ -44,16 +45,19 @@ export default function HadithPage() {
 
   const content = hadith && hadith.length > 0 ? hadith : fallback;
 
-  return (
-    <div className="grid gap-4">
-      <h1 className="text-xl font-semibold">Hadith — Bukhari Book 67</h1>
-      {!content && <div className="card">Loading…</div>}
-      {content && content.length === 0 && (
-        <div className="card text-sm text-slate-300">Import Bukhari Book 67 to review it offline.</div>
-      )}
-      {content?.map((item) => (
-        <HadithCard key={item.id} item={item} />
-      ))}
-    </div>
-  );
+  if (!content) {
+    return (
+      <Card className="flex items-center justify-center">
+        <UiLoaderDots label="Loading hadith" />
+      </Card>
+    );
+  }
+
+  if (content.length === 0) {
+    return (
+      <Card className="text-sm text-slate-300">Import Bukhari Book 67 to review it offline.</Card>
+    );
+  }
+
+  return <HadithClient items={content} />;
 }

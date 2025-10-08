@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { AyahCard } from '@/components/AyahCard';
 import { HadithCard } from '@/components/HadithCard';
+import { Card } from '@/components/ui';
 import { useTopic } from '@/lib/hooks';
 import { getAyah, getHadith, getTafsir } from '@/lib/db';
 import type { HadithItem, QuranAyah, TafsirSegment, TopicBundle } from '@/lib/types';
@@ -139,21 +140,21 @@ export function TopicClient({ slug, initialTopic }: TopicClientProps) {
   }, [topic]);
 
   if (!topic) {
-    return <div className="card">Topic not found.</div>;
+    return <Card>Topic not found.</Card>;
   }
 
   const keywords = topic.keywords?.join(', ');
 
   return (
     <div className="space-y-6">
-      <header className="card space-y-2">
-        <Link href="/topics" className="text-xs text-accent">
+      <Card className="space-y-3">
+        <Link href="/topics" className="text-xs text-brand-accent">
           ← All topics
         </Link>
-        <h1 className="text-2xl font-semibold text-slate-100">{topic.title}</h1>
+        <h1 className="text-2xl font-semibold text-white">{topic.title}</h1>
         <p className="text-sm text-slate-300">{topic.description}</p>
-        {keywords && <p className="text-xs text-slate-500">Keywords: {keywords}</p>}
-      </header>
+        {keywords ? <p className="text-xs text-slate-500">Keywords: {keywords}</p> : null}
+      </Card>
       <section className="space-y-3">
         <h2 className="text-lg font-semibold text-slate-100">Qur’an references</h2>
         {ayahs.length > 0 ? (
@@ -163,9 +164,7 @@ export function TopicClient({ slug, initialTopic }: TopicClientProps) {
             ))}
           </div>
         ) : (
-          <p className="rounded-xl border border-dashed border-slate-700 p-4 text-sm text-slate-400">
-            Import this topic’s source Surah via Downloads to view verses offline.
-          </p>
+          <Card className="text-sm text-slate-400">Import this topic’s source Surah via Downloads to view verses offline.</Card>
         )}
       </section>
       <section className="space-y-3">
@@ -177,9 +176,7 @@ export function TopicClient({ slug, initialTopic }: TopicClientProps) {
             ))}
           </div>
         ) : (
-          <p className="rounded-xl border border-dashed border-slate-700 p-4 text-sm text-slate-400">
-            Hadith text unavailable locally. Use Downloads to import the referenced collection.
-          </p>
+          <Card className="text-sm text-slate-400">Hadith text unavailable locally. Use Downloads to import the referenced collection.</Card>
         )}
       </section>
       <section className="space-y-3">
@@ -187,27 +184,25 @@ export function TopicClient({ slug, initialTopic }: TopicClientProps) {
         {tafsir.length > 0 ? (
           <div className="space-y-3">
             {tafsir.map((segment) => (
-              <article key={segment.id} className="card space-y-2 text-sm text-slate-200">
+              <Card key={segment.id} className="space-y-2 text-sm text-slate-200">
                 <p>{segment.excerpt}</p>
                 {segment.sources.length > 0 && (
                   <p className="text-xs text-slate-400">
                     Source: {segment.sources.map((src) => src.attribution ?? src.source_id).join(' | ')}
                   </p>
                 )}
-              </article>
+              </Card>
             ))}
           </div>
         ) : (
-          <p className="rounded-xl border border-dashed border-slate-700 p-4 text-sm text-slate-400">
-            Tafsīr excerpts will appear once the relevant work is imported.
-          </p>
+          <Card className="text-sm text-slate-400">Tafsīr excerpts will appear once the relevant work is imported.</Card>
         )}
       </section>
       {topic.notes && (
-        <section className="card text-sm text-slate-200">
+        <Card className="text-sm text-slate-200">
           <h2 className="text-lg font-semibold text-slate-100">Context notes</h2>
           <div className="prose prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: topic.notes }} />
-        </section>
+        </Card>
       )}
     </div>
   );

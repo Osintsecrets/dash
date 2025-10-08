@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import type { HadithItem, TafsirSegment } from '@/lib/types';
 import { relatedForAyah } from '@/lib/refs';
 import { HadithCard } from './HadithCard';
+import { Card } from '@/components/ui';
 
 export default function RelatedRefs({ surah, ayah }: { surah: number; ayah: number }) {
   const [taf, setTaf] = useState<TafsirSegment[]>([]);
@@ -18,25 +19,25 @@ export default function RelatedRefs({ surah, ayah }: { surah: number; ayah: numb
 
   return (
     <div className="grid gap-4">
-      <div className="card">
-        <h3 className="mb-2 text-lg">Related Tafsīr</h3>
+      <Card className="space-y-3">
+        <h3 className="text-lg font-semibold text-white">Related Tafsīr</h3>
         {taf.length === 0 ? (
-          <p className="text-slate-400">No related tafsīr excerpts found locally.</p>
+          <p className="text-sm text-slate-400">No related tafsīr excerpts found locally.</p>
         ) : (
-          <ul className="grid gap-2 text-sm leading-relaxed">
+          <ul className="grid gap-3 text-sm leading-relaxed text-slate-200">
             {taf.map((segment) => (
-              <li key={segment.id}>
+              <li key={segment.id} className="space-y-1 rounded-2xl border border-white/5 bg-white/5 p-3">
                 <div className="text-xs uppercase tracking-wide text-slate-400">{segment.work_id}</div>
                 <p>{segment.excerpt}</p>
               </li>
             ))}
           </ul>
         )}
-      </div>
-      <div className="card">
-        <h3 className="mb-2 text-lg">Related Hadith</h3>
+      </Card>
+      <Card className="space-y-3">
+        <h3 className="text-lg font-semibold text-white">Related Hadith</h3>
         {hadith.length === 0 ? (
-          <p className="text-slate-400">No related hadith found locally.</p>
+          <p className="text-sm text-slate-400">No related hadith found locally.</p>
         ) : (
           <ul className="grid gap-3">
             {hadith.map((item) => (
@@ -46,7 +47,7 @@ export default function RelatedRefs({ surah, ayah }: { surah: number; ayah: numb
             ))}
           </ul>
         )}
-      </div>
+      </Card>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Badge, Button, Card, GlowButton, Input, LoaderGoo, UiLoaderDots } from '@/components/ui';
 import type { Asset, DataManifest } from '@/lib/manifest';
 import { getDataManifest } from '@/lib/manifest';
 import {
@@ -18,6 +19,7 @@ import {
   type QItem,
 } from '@/lib/downloads';
 import { clearIndex } from '@/lib/search';
+import { useToast } from '@/components/ToastProvider';
 
 function formatBytes(bytes: number): string {
   if (Number.isNaN(bytes)) return '0 B';
@@ -27,6 +29,7 @@ function formatBytes(bytes: number): string {
 }
 
 export default function DownloadManager() {
+  const { push } = useToast();
   const [manifest, setManifest] = useState<DataManifest | null>(null);
   const [queue, setQueue] = useState<QItem[]>(() => getQueue());
   const [capBytes, setCap] = useState(() => getCapBytes());
@@ -80,16 +83,19 @@ export default function DownloadManager() {
     enqueue(assets.map((asset) => ({ id: asset.id, path: asset.path, bytes: asset.bytes, sha256: asset.sha256 })));
     setQueue(getQueue());
     await run();
+    push({ title: 'Download queue started', description: `${assets.length} assets enqueued.` });
   };
 
   const onRunQueue = async () => {
     await run();
     setQueue(getQueue());
+    push({ title: 'Queue running', description: 'Fetching offline bundles.' });
   };
 
   const onPurgeCache = async () => {
     await clearAllCached();
     setQueue(getQueue());
+    push({ title: 'Cache cleared', description: 'All offline bundles removed.' });
   };
 
   const onCapChange = async (value: number) => {
@@ -121,88 +127,92 @@ export default function DownloadManager() {
   };
 
   const capMb = Math.floor(capBytes / 1024 / 1024);
+  const isRunning = queue.some((item) => item.status === 'downloading');
 
   return (
-    <section className="card space-y-4">
-      <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="text-lg font-semibold">Offline downloads</h2>
+    <Card className="space-y-5">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-1">
+          <h2 className="text-lg font-semibold text-white">Offline downloads</h2>
           <p className="text-sm text-slate-300">Queue assets, verify hashes, and store them in Cache API.</p>
-          <p className="text-xs text-slate-400">Storage cap enforced via LRU. Cache namespace: sr-cache-v2.</p>
+          <p className="text-xs text-slate-500">Storage cap enforced via LRU. Cache namespace: sr-cache-v2.</p>
         </div>
-        <div className="flex items-center gap-2 text-sm text-slate-300">
+        <label className="flex items-center gap-2 text-sm text-slate-300">
           <span>Cap</span>
-          <input
+          <Input
             type="number"
-            className="w-20 rounded-md border border-slate-700 bg-slate-900 px-2 py-1 text-right"
+            className="w-24 text-right"
             value={capMb}
             onChange={(event) => onCapChange(Number(event.target.value) * 1024 * 1024)}
             min={10}
+            aria-label="Offline storage cap in megabytes"
           />
           <span>MB</span>
-        </div>
+        </label>
       </header>
 
-      <div className="flex flex-wrap gap-2">
-        <button type="button" className="btn" onClick={onEnqueueAll} disabled={!assets.length}>
+      <div className="flex flex-wrap items-center gap-3">
+        <GlowButton onClick={onEnqueueAll} disabled={!assets.length}>
           Download all from manifest
-        </button>
-        <button type="button" className="btn" onClick={onRunQueue}>
+        </GlowButton>
+        <GlowButton onClick={onRunQueue}>
           Run queue
-        </button>
-        <button type="button" className="btn" onClick={onPurgeCache}>
+        </GlowButton>
+        <Button variant="outline" onClick={onPurgeCache}>
           Clear cache
-        </button>
+        </Button>
       </div>
 
-      {loading && <p className="text-sm text-slate-400">Loading manifest…</p>}
-      {error && <p className="text-sm text-amber-300">Manifest error: {error}</p>}
+      {loading ? <UiLoaderDots label="Loading manifest" /> : null}
+      {error ? <p className="text-sm text-amber-300">Manifest error: {error}</p> : null}
+      {isRunning ? <LoaderGoo label="Fetching bundles" /> : null}
 
-      <ul className="divide-y divide-slate-800">
-        {queue.map((item) => (
-          <li key={item.id} className="py-3">
-            <div className="flex flex-wrap items-center gap-2 text-sm">
-              <span className="badge capitalize">{item.status}</span>
-              <span className="font-medium">{item.id}</span>
-              <span className="text-slate-400">{formatBytes(item.bytes)}</span>
-              {item.error && <span className="text-amber-300">{item.error}</span>}
-              {item.updatedAt && (
-                <span className="ml-auto text-xs text-slate-500">
-                  Updated {new Date(item.updatedAt).toLocaleTimeString()}
-                </span>
-              )}
-            </div>
-            <div className="mt-2 h-2 w-full overflow-hidden rounded bg-slate-800">
-              <div className="h-2 bg-sky-400" style={{ width: `${Math.round((item.progress ?? 0) * 100)}%` }} />
-            </div>
-            <div className="mt-3 flex flex-wrap gap-2 text-sm">
-              {(item.status === 'paused' || item.status === 'error' || item.status === 'canceled') && (
-                <button type="button" className="btn" onClick={() => handleResume(item.id)}>
-                  Resume
-                </button>
-              )}
-              {item.status === 'queued' && (
-                <button type="button" className="btn" onClick={() => handlePause(item.id)}>
-                  Pause
-                </button>
-              )}
-              {(item.status === 'queued' || item.status === 'downloading') && (
-                <button type="button" className="btn" onClick={() => handleCancel(item.id)}>
-                  Cancel
-                </button>
-              )}
-              {(item.status === 'done' || item.status === 'error' || item.status === 'paused' || item.status === 'canceled') && (
-                <button type="button" className="btn" onClick={() => onRemove(item.id)}>
-                  Remove
-                </button>
-              )}
-            </div>
-          </li>
-        ))}
-        {!queue.length && !loading && (
+      <ul className="divide-y divide-white/5">
+        {queue.map((item) => {
+          const progress = Math.round((item.progress ?? 0) * 100);
+          return (
+            <li key={item.id} className="py-4">
+              <div className="flex flex-wrap items-center gap-2 text-sm">
+                <Badge className="capitalize">{item.status}</Badge>
+                <span className="font-medium text-white">{item.id}</span>
+                <span className="text-slate-400">{formatBytes(item.bytes)}</span>
+                {item.error ? <span className="text-amber-300">{item.error}</span> : null}
+                {item.updatedAt ? (
+                  <span className="ml-auto text-xs text-slate-500">Updated {new Date(item.updatedAt).toLocaleTimeString()}</span>
+                ) : null}
+              </div>
+              <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white/5" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
+                <div className="h-2 bg-gradient-to-r from-brand-accent to-brand-accent2" style={{ width: `${progress}%` }} />
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2 text-sm">
+                {item.status === 'paused' || item.status === 'error' || item.status === 'canceled' ? (
+                  <Button size="sm" onClick={() => handleResume(item.id)}>
+                    Resume
+                  </Button>
+                ) : null}
+                {item.status === 'queued' ? (
+                  <Button size="sm" variant="outline" onClick={() => handlePause(item.id)}>
+                    Pause
+                  </Button>
+                ) : null}
+                {item.status === 'queued' || item.status === 'downloading' ? (
+                  <Button size="sm" variant="outline" onClick={() => handleCancel(item.id)}>
+                    Cancel
+                  </Button>
+                ) : null}
+                {item.status === 'done' || item.status === 'error' || item.status === 'paused' || item.status === 'canceled' ? (
+                  <Button size="sm" variant="ghost" onClick={() => onRemove(item.id)}>
+                    Remove
+                  </Button>
+                ) : null}
+              </div>
+            </li>
+          );
+        })}
+        {!queue.length && !loading ? (
           <li className="py-4 text-sm text-slate-400">Queue is empty. Load the manifest to add offline bundles.</li>
-        )}
+        ) : null}
       </ul>
-    </section>
+    </Card>
   );
 }
