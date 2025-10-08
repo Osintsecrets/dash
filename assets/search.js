@@ -7,10 +7,9 @@ async function boot() {
   const notice = document.getElementById('notice');
   if (spinner) spinner.hidden = false;
 
-  // Load meta and index; tolerate missing files
   const [metaJson, indexJson] = await Promise.all([
-    fetch('./data/meta.json').then(r => r.ok ? r.json() : { sunnah_status: 'unknown' }).catch(()=>({sunnah_status:'unknown'})),
-    fetch('./data/search_index.json').then(r => r.ok ? r.json() : { items: [] }).catch(()=>({items:[]}))
+    fetch('./data/meta.json').then(r => r.ok ? r.json() : {sunnah_status:'unknown'}).catch(()=>({sunnah_status:'unknown'})),
+    fetch('./data/search_index.json').then(r => r.ok ? r.json() : {items:[]}).catch(()=>({items:[]}))
   ]);
 
   const items = Array.isArray(indexJson.items) ? indexJson.items : [];
@@ -19,7 +18,6 @@ async function boot() {
     notice.textContent = "Heads up: Hadith results may be limited because the Sunnah API key is not configured.";
   }
 
-  // Controls
   const q     = document.getElementById('q');
   const src   = document.getElementById('src');
   const surah = document.getElementById('surah');
@@ -27,9 +25,9 @@ async function boot() {
   const count = document.getElementById('count');
   const copyLinkBtn = document.getElementById('copyLink');
 
-  // Populate filters
   const sources = [...new Set(items.map(i => i.source))].sort();
   sources.forEach(s => { const o=document.createElement('option'); o.value=s; o.textContent=s; src.appendChild(o); });
+
   const surahs = [...new Set(items.flatMap(i => i.tags||[]).filter(t => /^Surah /.test(t)))]
     .sort((a,b)=>parseInt(a.replace(/\D+/g,''),10)-parseInt(b.replace(/\D+/g,''),10));
   surahs.forEach(t => { const o=document.createElement('option'); o.value=t; o.textContent=t; surah.appendChild(o); });
@@ -53,7 +51,6 @@ async function boot() {
     const s = src.value;
     const su = surah.value;
 
-    // If MiniSearch is present, use it; otherwise use microsearch fallback
     let results;
     if (typeof MiniSearch !== 'undefined') {
       const mini = window.__mini || (window.__mini = new MiniSearch({
@@ -65,7 +62,6 @@ async function boot() {
       if (!window.__mini_added) { mini.addAll(items); window.__mini_added=true; }
       results = query ? mini.search(query).map(r => items.find(i=>i.id===r.id)) : items;
     } else {
-      // simple contains search on title/excerpt/source/tags
       results = query ? searchItems(items, query) : items;
     }
 
@@ -83,7 +79,6 @@ async function boot() {
     }
   }
 
-  // Events
   q.addEventListener('input', () => apply(true));
   src.addEventListener('change', () => apply(true));
   surah.addEventListener('change', () => apply(true));

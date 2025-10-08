@@ -10,20 +10,52 @@
   <header class="site">
     <div class="container">
       <h1>Truth Dashboard</h1>
-      <p class="muted">A citation-first reference hub. Phase 1 focuses on Islam sources (Qur'an and Hadith) using official APIs.</p>
-      <p><a class="badge" href="./islam.html">Open Islam module →</a></p>
+      <nav class="nav">
+        <a href="./index.html" aria-current="page">Home</a>
+        <a href="./islam.html">Islam search</a>
+        <a href="./arguments.html">Arguments</a>
+        <a href="https://github.com/Osintsecrets/PRIVACY" target="_blank" rel="noopener">Repo</a>
+      </nav>
+      <p class="muted">Citation-first reference hub. Static. Fast. Everything links back to original sources.</p>
     </div>
   </header>
   <main class="container">
-    <div class="card">
+    <section class="card">
       <h3>What is this?</h3>
-      <p>This static site aggregates content via scheduled builds and lets you search locally. Every item links to the original source.</p>
-    </div>
-    <div class="card">
-      <h3>Status</h3>
-      <p>If you just deployed, the data job may not have run yet. The Islam module includes placeholder data so you can test immediately.</p>
-    </div>
+      <p>Scheduled builds fetch structured data via official APIs. The site performs local full-text search and renders citation cards.</p>
+    </section>
+
+    <section class="card" id="statusCard">
+      <h3>Data Status</h3>
+      <p id="statusSummary">Checking…</p>
+      <ul id="statusList"></ul>
+    </section>
+
+    <section class="card">
+      <h3>Quick Start</h3>
+      <ol>
+        <li>Settings → Pages → Build from <code>main</code> (root).</li>
+        <li>Actions → <em>Build data index</em> → Run workflow.</li>
+        <li>(Optional) Add <code>SUNNAH_API_KEY</code> secret for hadith.</li>
+      </ol>
+    </section>
   </main>
   <footer class="footer"><div class="container">© 2025 Truth Dashboard • MIT License</div></footer>
+
+  <script type="module">
+    import { readJSON } from './assets/app.js';
+    (async () => {
+      const feed = await readJSON('./data/feed.json', {items:[]});
+      const meta = await readJSON('./data/meta.json', {generated_at:'n/a', sunnah_status:'unknown'});
+      const total = Array.isArray(feed.items) ? feed.items.length : 0;
+      const sum = document.getElementById('statusSummary');
+      const list = document.getElementById('statusList');
+      const sunnahOk = meta.sunnah_status === 'ok';
+      sum.innerHTML = `Items indexed: <strong>${total}</strong> • Generated: <strong>${meta.generated_at}</strong>`;
+      list.innerHTML = `
+        <li>Sunnah API: <span class="badge ${sunnahOk?'ok':'warn'}">${sunnahOk?'OK':'Missing API key'}</span></li>
+      `;
+    })();
+  </script>
 </body>
 </html>

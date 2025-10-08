@@ -1,7 +1,7 @@
-export const escapeRegExp = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\$&");
+export const escapeRegExp = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 export const highlight = (text, q) => {
   if (!q || !text) return text || '';
-  const terms = [...new Set((q.toLowerCase().match(/[\p{L}\p{N}_"]/gu) || [])
+  const terms = [...new Set((q.toLowerCase().match(/[\p{L}\p{N}_"]+/gu) || [])
     .filter(t => t !== '"' && t.length > 1))];
   if (!terms.length) return text;
   const pattern = new RegExp("(" + terms.map(escapeRegExp).join("|") + ")", "giu");

@@ -2,15 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Truth Dashboard — Islam</title>
+  <title>Truth Dashboard — Islam search</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="./assets/styles.css" rel="stylesheet">
 </head>
 <body>
   <header class="site">
     <div class="container">
-      <h1>Islam Module</h1>
-      <p class="muted">Search Qur'an (selected translations) and authentic hadith. All results link to the original pages.</p>
+      <h1>Islam search</h1>
+      <nav class="nav">
+        <a href="./index.html">Home</a>
+        <a href="./islam.html" aria-current="page">Islam search</a>
+        <a href="./arguments.html">Arguments</a>
+        <a href="https://github.com/Osintsecrets/PRIVACY" target="_blank" rel="noopener">Repo</a>
+      </nav>
+      <p class="muted">Search Qur'an (selected translations) and authentic hadith. All results link to original pages.</p>
       <p><span class="badge"><span id="count">0</span> results</span></p>
       <div class="controls">
         <input id="q" type="search" placeholder="Search verses & hadith…" aria-label="Search">
@@ -32,6 +38,7 @@
     <div id="empty" class="empty" hidden>No results. Try different terms or filters.</div>
   </main>
   <footer class="footer"><div class="container">Sources: Quran.com API v4, Sunnah.com API • © 2025 Truth Dashboard</div></footer>
+  <script src="./assets/vendor/minisearch.min.js"></script>
   <script type="module" src="./assets/search.js"></script>
 </body>
 </html>
