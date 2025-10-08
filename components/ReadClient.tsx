@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { AyahCard } from './AyahCard';
-import { TafsirPanel } from './TafsirPanel';
+import TafsirPanel from './TafsirPanel';
 import type { QuranAyah } from '@/lib/types';
 
 const sampleSurahs = [
@@ -17,7 +17,7 @@ interface ReadClientProps {
   ayahs: QuranAyah[];
 }
 
-export function ReadClient({ ayahs }: ReadClientProps) {
+export default function ReadClient({ ayahs }: ReadClientProps) {
   const hasAyahs = ayahs.length > 0;
   const searchParams = useSearchParams();
   const surahParam = Number.parseInt(searchParams.get('surah') ?? '9', 10);
@@ -53,14 +53,7 @@ export function ReadClient({ ayahs }: ReadClientProps) {
         {selectedAyah ? (
           <>
             <AyahCard ayah={selectedAyah} />
-            <TafsirPanel
-              works={[
-                { work_id: 'ibn_kathir', label: 'Ibn Kathīr' },
-                { work_id: 'jalalayn', label: 'Al-Jalālayn' }
-              ]}
-              surah={selectedAyah.surah}
-              ayah={selectedAyah.ayah}
-            />
+            <TafsirPanel surah={selectedAyah.surah} ayah={selectedAyah.ayah} />
             <section className="card space-y-2 text-sm text-slate-300">
               <h3 className="text-sm font-semibold text-slate-100">Source metadata</h3>
               <ul className="space-y-1 text-xs text-slate-400">

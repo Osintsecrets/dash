@@ -15,18 +15,17 @@ export function pathForCommand(cmd: string, args: string[]): string | null {
       const surah = Number.parseInt(surahRaw ?? '', 10);
       const ayah = Number.parseInt(ayahRaw ?? '', 10);
       if (Number.isNaN(surah) || Number.isNaN(ayah)) return null;
-      return `/read?surah=${surah}&ayah=${ayah}`;
+      return `/read/${surah}/${ayah}/`;
     }
     case 'h': {
       const [collection, numberRaw] = args;
-      const number = Number.parseInt(numberRaw ?? '', 10);
-      if (!collection || Number.isNaN(number)) return null;
-      return `/hadith?collection=${collection}&number=${number}`;
+      if (!collection || !numberRaw) return null;
+      return '/hadith/';
     }
     case 'topic': {
       const [slug] = args;
       if (!slug) return null;
-      return `/topics/${slug}`;
+      return `/topics/${slug}/`;
     }
     default:
       return null;
