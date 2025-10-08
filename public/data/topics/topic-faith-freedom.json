@@ -1,0 +1,18 @@
+{
+  "id": "topic-faith-freedom",
+  "slug": "faith-freedom",
+  "title": "Faith and Freedom of Conscience",
+  "description": "Selected verses and narrations discussing acceptance of faith without coercion.",
+  "keywords": ["faith", "freedom", "conscience"],
+  "quran": [
+    { "type": "quran", "q": { "surah": 2, "ayah": 256 } }
+  ],
+  "hadith": [
+    { "type": "hadith", "h": { "collection": "bukhari", "book": 89, "number": 6922 } }
+  ],
+  "tafsir": [
+    { "type": "tafsir", "t": { "work_id": "jalalayn", "surah": 2, "ayah": 256 } }
+  ],
+  "notes": "<p>Used to compare exegetical interpretations of verse 2:256 with narrations cited in legal discourse on coercion.</p>",
+  "offline_ready": false
+}

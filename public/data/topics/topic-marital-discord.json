@@ -1,0 +1,18 @@
+{
+  "id": "topic-marital-discord",
+  "slug": "marital-discord-reconciliation",
+  "title": "Marital Discord & Reconciliation",
+  "description": "Primary texts and classical commentary related to approaches for resolving marital disputes.",
+  "keywords": ["marriage", "family", "reconciliation"],
+  "quran": [
+    { "type": "quran", "q": { "surah": 4, "ayah": 34 } }
+  ],
+  "hadith": [
+    { "type": "hadith", "h": { "collection": "muslim", "book": 9, "number": 1218 } }
+  ],
+  "tafsir": [
+    { "type": "tafsir", "t": { "work_id": "ibn_kathir", "surah": 4, "ayah": 34 } }
+  ],
+  "notes": "<p>This bundle assembles textual witnesses used by jurists when outlining stages of reconciliation, emphasizing variant scholarly readings.</p>",
+  "offline_ready": false
+}

@@ -1,0 +1,32 @@
+{
+  "collection": "bukhari",
+  "book": 67,
+  "items": [
+    {
+      "id": "h-bukhari-67-1234",
+      "collection": "bukhari",
+      "book": 67,
+      "number": 1234,
+      "arabic": "حَدَّثَنَا مُحَمَّدُ بْنُ يُوسُفَ، حَدَّثَنَا سُفْيَانُ، عَنْ الأَعْمَشِ، عَنْ أَبِي وَائِلٍ، عَنْ عَبْدِ اللَّهِ، قَالَ قَالَ النَّبِيُّ صلى الله عليه وسلم \" مَا أَحَدٌ أَحَقُّ مِنَ اللَّهِ أَنْ يُحْمَدَ \".",
+      "translations": [
+        {
+          "work_id": "darussalam",
+          "lang": "en",
+          "text": "Narrated `Abdullah: The Prophet (ﷺ) said, 'No one has more right to be thanked than Allah.'"
+        }
+      ],
+      "grading": {
+        "authority": "Darussalam",
+        "value": "sahih"
+      },
+      "sources": [
+        {
+          "source_id": "sunnah.com",
+          "canonical_uri": "https://sunnah.com/bukhari:1234",
+          "attribution": "Sunnah.com",
+          "license": "Usage per Sunnah.com terms"
+        }
+      ]
+    }
+  ]
+}

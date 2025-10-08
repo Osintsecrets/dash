@@ -1,0 +1,516 @@
+{
+  "topics": [
+    {
+      "id": "topic-charity-social-support",
+      "slug": "charity-social-support",
+      "title": "Charity & Social Support",
+      "description": "References on obligatory and voluntary charity, with classical notes on eligible recipients.",
+      "keywords": [
+        "charity",
+        "zakat",
+        "almsgiving"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 9,
+            "ayah": 60
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "muslim",
+            "book": 5,
+            "number": 987
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "ibn_kathir",
+            "surah": 9,
+            "ayah": 60
+          }
+        }
+      ],
+      "notes": "<p>Used for studying the eight categories of zakat distribution and debates on state administration of funds.</p>",
+      "offline_ready": false
+    },
+    {
+      "id": "topic-compassion-neighbors",
+      "slug": "compassion-neighbors",
+      "title": "Compassion Toward Neighbors",
+      "description": "Primary texts about kindness toward neighbors and community members.",
+      "keywords": [
+        "compassion",
+        "neighbors",
+        "community"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 4,
+            "ayah": 36
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "bukhari",
+            "book": 78,
+            "number": 6014
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "ibn_kathir",
+            "surah": 4,
+            "ayah": 36
+          }
+        }
+      ],
+      "notes": "<p>Highlights enjoined kindness to near and distant neighbors alongside prophetic encouragement.</p>",
+      "offline_ready": false
+    },
+    {
+      "id": "topic-faith-freedom",
+      "slug": "faith-freedom",
+      "title": "Faith and Freedom of Conscience",
+      "description": "Selected verses and narrations discussing acceptance of faith without coercion.",
+      "keywords": [
+        "faith",
+        "freedom",
+        "conscience"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 2,
+            "ayah": 256
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "bukhari",
+            "book": 89,
+            "number": 6922
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "jalalayn",
+            "surah": 2,
+            "ayah": 256
+          }
+        }
+      ],
+      "notes": "<p>Used to compare exegetical interpretations of verse 2:256 with narrations cited in legal discourse on coercion.</p>",
+      "offline_ready": false
+    },
+    {
+      "id": "topic-governance-consultation",
+      "slug": "governance-consultation",
+      "title": "Governance & Consultation",
+      "description": "Evidence on shūrā (consultation) and just administration.",
+      "keywords": [
+        "governance",
+        "consultation",
+        "shura"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 42,
+            "ayah": 38
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "tirmidhi",
+            "book": 25,
+            "number": 1714
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "ibn_kathir",
+            "surah": 42,
+            "ayah": 38
+          }
+        }
+      ],
+      "notes": "<p>Presents sources on communal consultation and administrative ethics in early Islamic practice.</p>",
+      "offline_ready": false
+    },
+    {
+      "id": "topic-jizya-covenants",
+      "slug": "jizya-and-covenants",
+      "title": "Jizyah Obligations & Covenants",
+      "description": "Primary texts and classical commentary concerning Qur'an 9:29 and community covenants.",
+      "keywords": [
+        "jizya",
+        "covenant",
+        "people of the book"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 9,
+            "ayah": 29
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "bukhari",
+            "book": 67,
+            "number": 1234
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "ibn_kathir",
+            "surah": 9,
+            "ayah": 29
+          }
+        },
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "jalalayn",
+            "surah": 9,
+            "ayah": 29
+          }
+        }
+      ],
+      "notes": "<p>This bundle presents primary passages and recognized commentarial excerpts for study. It highlights how jurists described contractual obligations under jizyah arrangements.</p>",
+      "offline_ready": false
+    },
+    {
+      "id": "topic-justice-testimony",
+      "slug": "justice-testimony",
+      "title": "Justice & Testimony Standards",
+      "description": "Evidence on fair testimony, legal impartiality, and integrity expectations.",
+      "keywords": [
+        "justice",
+        "testimony",
+        "legal"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 4,
+            "ayah": 135
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "muslim",
+            "book": 32,
+            "number": 4542
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "ibn_kathir",
+            "surah": 4,
+            "ayah": 135
+          }
+        }
+      ],
+      "notes": "<p>Pairs verses on standing firm for justice with narrations addressing truthful testimony.</p>",
+      "offline_ready": false
+    },
+    {
+      "id": "topic-knowledge-seeking",
+      "slug": "knowledge-seeking",
+      "title": "Seeking Knowledge",
+      "description": "Texts encouraging the pursuit of knowledge and transmission of sound learning.",
+      "keywords": [
+        "knowledge",
+        "learning",
+        "education"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 96,
+            "ayah": 1
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "ibnmajah",
+            "book": 17,
+            "number": 224
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "jalalayn",
+            "surah": 96,
+            "ayah": 1
+          }
+        }
+      ],
+      "notes": "<p>Used for lessons on literacy, scholarly responsibility, and the virtue of seeking knowledge.</p>",
+      "offline_ready": false
+    },
+    {
+      "id": "topic-marital-discord",
+      "slug": "marital-discord-reconciliation",
+      "title": "Marital Discord & Reconciliation",
+      "description": "Primary texts and classical commentary related to approaches for resolving marital disputes.",
+      "keywords": [
+        "marriage",
+        "family",
+        "reconciliation"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 4,
+            "ayah": 34
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "muslim",
+            "book": 9,
+            "number": 1218
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "ibn_kathir",
+            "surah": 4,
+            "ayah": 34
+          }
+        }
+      ],
+      "notes": "<p>This bundle assembles textual witnesses used by jurists when outlining stages of reconciliation, emphasizing variant scholarly readings.</p>",
+      "offline_ready": false
+    },
+    {
+      "id": "topic-mercy-forgiveness",
+      "slug": "mercy-forgiveness",
+      "title": "Mercy & Forgiveness",
+      "description": "Texts highlighting divine mercy, repentance, and forgiveness across Qur'an and hadith.",
+      "keywords": [
+        "mercy",
+        "repentance",
+        "forgiveness"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 39,
+            "ayah": 53
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "muslim",
+            "book": 37,
+            "number": 2759
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "jalalayn",
+            "surah": 39,
+            "ayah": 53
+          }
+        }
+      ],
+      "notes": "<p>Collected to compare themes of repentance and divine compassion with commentarial elaborations.</p>",
+      "offline_ready": false
+    },
+    {
+      "id": "topic-pluralism-covenants",
+      "slug": "pluralism-covenants",
+      "title": "Pluralism & Prophetic Covenants",
+      "description": "Texts cited regarding agreements with non-Muslim communities and maintenance of covenants.",
+      "keywords": [
+        "covenant",
+        "pluralism",
+        "agreements"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 9,
+            "ayah": 4
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "bukhari",
+            "book": 56,
+            "number": 3045
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "jalalayn",
+            "surah": 9,
+            "ayah": 4
+          }
+        }
+      ],
+      "notes": "<p>Focuses on treaty obligations and juristic discussions of covenant-breaking, presenting verses alongside classical commentary.</p>",
+      "offline_ready": false
+    },
+    {
+      "id": "topic-trust-commerce",
+      "slug": "trust-commerce",
+      "title": "Trust & Commercial Ethics",
+      "description": "Texts addressing honest trade, safeguarding trusts, and prohibitions on fraud.",
+      "keywords": [
+        "trust",
+        "commerce",
+        "ethics"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 83,
+            "ayah": 1
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "tirmidhi",
+            "book": 12,
+            "number": 1211
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "jalalayn",
+            "surah": 83,
+            "ayah": 1
+          }
+        }
+      ],
+      "notes": "<p>Gathered for case studies on trustworthy trade and prohibitions against cheating in measurement.</p>",
+      "offline_ready": false
+    },
+    {
+      "id": "topic-warfare-constraints",
+      "slug": "warfare-constraints",
+      "title": "Warfare Constraints & Conduct",
+      "description": "Sources referenced when assessing permissible conduct during conflict and protection of noncombatants.",
+      "keywords": [
+        "war",
+        "ethics",
+        "noncombatants"
+      ],
+      "quran": [
+        {
+          "type": "quran",
+          "q": {
+            "surah": 2,
+            "ayah": 190
+          }
+        }
+      ],
+      "hadith": [
+        {
+          "type": "hadith",
+          "h": {
+            "collection": "bukhari",
+            "book": 56,
+            "number": 3015
+          }
+        }
+      ],
+      "tafsir": [
+        {
+          "type": "tafsir",
+          "t": {
+            "work_id": "ibn_kathir",
+            "surah": 2,
+            "ayah": 190
+          }
+        }
+      ],
+      "notes": "<p>Highlights verses and narrations discussing proportionality, ceasefire obligations, and juristic debates on wartime constraints.</p>",
+      "offline_ready": false
+    }
+  ]
+}

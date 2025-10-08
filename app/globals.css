@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-slate-950 text-slate-100 min-h-screen font-sans;
+}
+
+a {
+  @apply text-accent hover:text-cyan-300;
+}
+
+.btn {
+  @apply inline-flex items-center rounded-xl bg-slate-800 px-3 py-2 text-sm font-medium text-slate-100 transition hover:bg-slate-700;
+}
+
+.card {
+  @apply rounded-2xl bg-slate-900/80 p-4 shadow-lg ring-1 ring-slate-800;
+}
+
+.badge {
+  @apply inline-flex items-center rounded-full bg-slate-800 px-2 py-1 text-xs font-semibold uppercase tracking-wide;
+}

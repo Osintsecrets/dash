@@ -1,0 +1,18 @@
+{
+  "id": "topic-warfare-constraints",
+  "slug": "warfare-constraints",
+  "title": "Warfare Constraints & Conduct",
+  "description": "Sources referenced when assessing permissible conduct during conflict and protection of noncombatants.",
+  "keywords": ["war", "ethics", "noncombatants"],
+  "quran": [
+    { "type": "quran", "q": { "surah": 2, "ayah": 190 } }
+  ],
+  "hadith": [
+    { "type": "hadith", "h": { "collection": "bukhari", "book": 56, "number": 3015 } }
+  ],
+  "tafsir": [
+    { "type": "tafsir", "t": { "work_id": "ibn_kathir", "surah": 2, "ayah": 190 } }
+  ],
+  "notes": "<p>Highlights verses and narrations discussing proportionality, ceasefire obligations, and juristic debates on wartime constraints.</p>",
+  "offline_ready": false
+}

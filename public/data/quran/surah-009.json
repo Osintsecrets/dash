@@ -1,0 +1,37 @@
+{
+  "surah": 9,
+  "ayahs": [
+    {
+      "id": "q-9-29",
+      "surah": 9,
+      "ayah": 29,
+      "arabic": "قَاتِلُوا الَّذِينَ لَا يُؤْمِنُونَ بِاللَّهِ وَلَا بِالْيَوْمِ الْآخِرِ وَلَا يُحَرِّمُونَ مَا حَرَّمَ اللَّهُ وَرَسُولُهُ وَلَا يَدِينُونَ دِينَ الْحَقِّ مِنَ الَّذِينَ أُوتُوا الْكِتَابَ حَتَّىٰ يُعْطُوا الْجِزْيَةَ عَنْ يَدٍ وَهُمْ صَاغِرُونَ",
+      "translations": [
+        {
+          "work_id": "sahih_intl",
+          "lang": "en",
+          "text": "Fight those who do not believe in Allah or in the Last Day and who do not consider unlawful what Allah and His Messenger have made unlawful and who do not adopt the religion of truth from those who were given the Scripture - [fight] until they give the jizyah willingly while they are humbled."
+        },
+        {
+          "work_id": "pickthall",
+          "lang": "en",
+          "text": "Fight against such of those who have been given the Scripture as believe not in Allah nor the Last Day, and forbid not that which Allah hath forbidden by His messenger, and follow not the Religion of Truth, until they pay the tribute readily, being brought low."
+        },
+        {
+          "work_id": "abdel_haleem",
+          "lang": "en",
+          "text": "Fight those of the People of the Book who do not [truly] believe in God and the Last Day, who do not forbid what God and His Messenger have forbidden, and who do not obey the rule of justice, until they pay the tax and agree to submit."
+        }
+      ],
+      "tafsir_refs": ["t-ibnkathir-9-29", "t-jalalayn-9-29"],
+      "sources": [
+        {
+          "source_id": "quran.com",
+          "canonical_uri": "https://quran.com/9/29",
+          "attribution": "Quran.com",
+          "license": "see About"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "topic-compassion-neighbors",
+  "slug": "compassion-neighbors",
+  "title": "Compassion Toward Neighbors",
+  "description": "Primary texts about kindness toward neighbors and community members.",
+  "keywords": ["compassion", "neighbors", "community"],
+  "quran": [
+    { "type": "quran", "q": { "surah": 4, "ayah": 36 } }
+  ],
+  "hadith": [
+    { "type": "hadith", "h": { "collection": "bukhari", "book": 78, "number": 6014 } }
+  ],
+  "tafsir": [
+    { "type": "tafsir", "t": { "work_id": "ibn_kathir", "surah": 4, "ayah": 36 } }
+  ],
+  "notes": "<p>Highlights enjoined kindness to near and distant neighbors alongside prophetic encouragement.</p>",
+  "offline_ready": false
+}

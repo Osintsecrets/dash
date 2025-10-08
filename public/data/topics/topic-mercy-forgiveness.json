@@ -1,0 +1,18 @@
+{
+  "id": "topic-mercy-forgiveness",
+  "slug": "mercy-forgiveness",
+  "title": "Mercy & Forgiveness",
+  "description": "Texts highlighting divine mercy, repentance, and forgiveness across Qur'an and hadith.",
+  "keywords": ["mercy", "repentance", "forgiveness"],
+  "quran": [
+    { "type": "quran", "q": { "surah": 39, "ayah": 53 } }
+  ],
+  "hadith": [
+    { "type": "hadith", "h": { "collection": "muslim", "book": 37, "number": 2759 } }
+  ],
+  "tafsir": [
+    { "type": "tafsir", "t": { "work_id": "jalalayn", "surah": 39, "ayah": 53 } }
+  ],
+  "notes": "<p>Collected to compare themes of repentance and divine compassion with commentarial elaborations.</p>",
+  "offline_ready": false
+}

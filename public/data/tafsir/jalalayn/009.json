@@ -1,0 +1,19 @@
+{
+  "work_id": "jalalayn",
+  "surah": 9,
+  "segments": [
+    {
+      "id": "t-jalalayn-9-29",
+      "ayah": 29,
+      "excerpt": "Al-Jalālayn interprets the command as requiring the People of the Book to pay the jizyah acknowledging Muslim rule while being allowed to keep their religion.",
+      "sources": [
+        {
+          "source_id": "quran.com",
+          "canonical_uri": "https://quran.com/tafsir/jalalayn/9/29",
+          "attribution": "Tafsīr Al-Jalālayn",
+          "license": "see About"
+        }
+      ]
+    }
+  ]
+}
