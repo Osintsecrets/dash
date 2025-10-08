@@ -1,6 +1,51 @@
 import { renderCard } from './ui.js';
 import { searchItems } from './microsearch.js';
 
+async function copyWithFallback(text) {
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    try {
+      await navigator.clipboard.writeText(text);
+      return 'success';
+    } catch (err) {
+      // fall back to legacy strategy
+    }
+  }
+
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  textarea.style.top = '0';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+
+  const selection = document.getSelection();
+  const prevRange = selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+  textarea.select();
+  textarea.setSelectionRange(0, textarea.value.length);
+
+  let copied = false;
+  try {
+    copied = document.execCommand('copy');
+  } catch (err) {
+    copied = false;
+  }
+
+  document.body.removeChild(textarea);
+  if (prevRange && selection) {
+    selection.removeAllRanges();
+    selection.addRange(prevRange);
+  }
+
+  if (!copied) {
+    window.prompt('Copy this text and press Enter:', text);
+    return 'prompt';
+  }
+
+  return 'success';
+}
+
 async function boot() {
   const spinner = document.getElementById('spinner');
   const emptyEl = document.getElementById('empty');
@@ -93,10 +138,11 @@ async function boot() {
   }
 
   if (copyLinkBtn) {
-    copyLinkBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(window.location.href);
-      copyLinkBtn.textContent = 'Link copied';
-      setTimeout(()=>copyLinkBtn.textContent='Copy link', 1200);
+    copyLinkBtn.addEventListener('click', async () => {
+      const prev = copyLinkBtn.textContent;
+      const result = await copyWithFallback(window.location.href);
+      copyLinkBtn.textContent = result === 'success' ? 'Link copied' : 'Copy manually';
+      setTimeout(()=>copyLinkBtn.textContent = prev || 'Copy link', 1600);
     });
   }
 
