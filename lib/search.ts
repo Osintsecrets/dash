@@ -132,3 +132,8 @@ export function clearIndex() {
   mini = null;
   built = false;
 }
+
+export async function rebuildIndex() {
+  clearIndex();
+  return buildIndex();
+}
