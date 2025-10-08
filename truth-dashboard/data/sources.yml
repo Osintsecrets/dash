@@ -1,0 +1,8 @@
+quran_api:
+  base: "https://api.quran.com/api/v4"
+  chapters: [1,2,3,4,5]     # initial subset; can expand to 1..114 later
+  translations: [131]        # Sahih International; can adjust later
+sunnah_api:
+  base: "https://api.sunnah.com/v1"
+  collections: ["bukhari","muslim"]
+  per_collection_limit: 200

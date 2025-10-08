@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Truth Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="./assets/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header class="site">
+    <div class="container">
+      <h1>Truth Dashboard</h1>
+      <p class="muted">A citation‑first reference hub. Phase 1 focuses on Islam sources (Qur'an and Hadith) using official APIs. Every result links to the original publisher.</p>
+      <p><a class="badge" href="./islam.html">Open Islam module →</a></p>
+      <details>
+        <summary>Editorial Policy</summary>
+        <p>This site aggregates and indexes content from reputable primary/official sources. We do not scrape HTML or republish full articles. Views belong to the original publishers. If you are a publisher and want inclusion or removal, please open an issue in the repository.</p>
+      </details>
+    </div>
+  </header>
+  <main class="container">
+    <div class="card">
+      <h3>How it works</h3>
+      <p>A scheduled GitHub Action pulls data via public APIs and writes <code>data/*.json</code>. The frontend performs local full‑text search with MiniSearch and renders citation cards that link back to source pages.</p>
+    </div>
+    <div class="card">
+      <h3>Roadmap</h3>
+      <ul>
+        <li>Phase 1: Islam module (this build)</li>
+        <li>Phase 2: Additional modules and topic collections</li>
+      </ul>
+    </div>
+  </main>
+  <footer class="footer"><div class="container">© 2025 Truth Dashboard • MIT License</div></footer>
+</body>
+</html>
