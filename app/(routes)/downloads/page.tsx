@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { DownloadManagerPanel } from '@/components/DownloadManagerPanel';
+import DownloadManager from '@/components/DownloadManager';
 import {
   importHadithBookFromJson,
   importSurahFromJson,
@@ -50,7 +50,7 @@ export default function DownloadsPage() {
         <h2 className="text-sm font-semibold text-slate-100">Import log</h2>
         <pre className="mt-2 whitespace-pre-wrap text-xs text-slate-300">{log.join('\n')}</pre>
       </div>
-      <DownloadManagerPanel />
+      <DownloadManager />
     </div>
   );
 }
