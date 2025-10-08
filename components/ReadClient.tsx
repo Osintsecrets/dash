@@ -64,16 +64,19 @@ export function ReadClient({ ayahs }: ReadClientProps) {
             <section className="card space-y-2 text-sm text-slate-300">
               <h3 className="text-sm font-semibold text-slate-100">Source metadata</h3>
               <ul className="space-y-1 text-xs text-slate-400">
-                {selectedAyah.sources.map((src) => (
-                  <li key={`${src.attribution}-${src.canonical_uri ?? ''}`}>
-                    {src.attribution} — {src.license ?? 'see About'}{' '}
-                    {src.canonical_uri && (
-                      <a href={src.canonical_uri} className="underline" target="_blank" rel="noreferrer">
-                        {src.canonical_uri}
-                      </a>
-                    )}
-                  </li>
-                ))}
+                {selectedAyah.sources.map((src) => {
+                  const attribution = src.attribution ?? src.source_id;
+                  return (
+                    <li key={`${attribution}-${src.canonical_uri ?? ''}`}>
+                      {attribution} — {src.license ?? 'see About'}{' '}
+                      {src.canonical_uri && (
+                        <a href={src.canonical_uri} className="underline" target="_blank" rel="noreferrer">
+                          {src.canonical_uri}
+                        </a>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </section>
           </>

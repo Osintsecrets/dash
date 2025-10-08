@@ -13,6 +13,7 @@ export function SheetEditor({ initialSheet }: SheetEditorProps) {
       id: 'local-draft',
       title: 'Untitled evidence sheet',
       created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
       notes_md: '',
       cites: []
     }

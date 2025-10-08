@@ -1,18 +1,17 @@
 export type TextType = 'quran' | 'tafsir' | 'hadith';
 
-export interface CanonRef {
-  type: TextType;
-  q?: { surah: number; ayah: number };
-  h?: { collection: string; book: number; number: number };
-  t?: { work_id: string; surah: number; ayah: number; segment_id?: string };
-}
-
 export interface SourceMeta {
-  source_id: string;
+  source_id: 'quran.com' | 'sunnah.com' | 'local';
   canonical_uri?: string;
   license?: string;
-  attribution: string;
+  attribution?: string;
   retrieved_at?: string;
+}
+
+export interface QuranTranslation {
+  work_id: string;
+  lang: string;
+  text: string;
 }
 
 export interface QuranAyah {
@@ -21,7 +20,7 @@ export interface QuranAyah {
   ayah: number;
   arabic: string;
   transliteration?: string;
-  translations: Array<{ work_id: string; lang: string; text: string }>;
+  translations: QuranTranslation[];
   roots?: string[];
   tafsir_refs?: string[];
   sources: SourceMeta[];
@@ -36,6 +35,8 @@ export interface TafsirSegment {
   sources: SourceMeta[];
 }
 
+export type HadithGradeValue = 'sahih' | 'hasan' | 'daif' | 'unknown';
+
 export interface HadithItem {
   id: string;
   collection: string;
@@ -43,10 +44,17 @@ export interface HadithItem {
   number: number;
   arabic?: string;
   translations?: Array<{ work_id: string; lang: string; text: string }>;
-  grading?: { authority?: string; value?: 'sahih' | 'hasan' | 'daif' | 'unknown' };
+  grading?: { authority?: string; value?: HadithGradeValue };
   isnad?: string;
   topics?: string[];
   sources: SourceMeta[];
+}
+
+export interface CanonRef {
+  type: TextType;
+  q?: { surah: number; ayah: number };
+  h?: { collection: string; book: number; number: number };
+  t?: { work_id: string; surah: number; ayah: number; segment_id?: string };
 }
 
 export interface TopicBundle {
@@ -54,20 +62,27 @@ export interface TopicBundle {
   slug: string;
   title: string;
   description: string;
-  keywords: string[];
   quran: CanonRef[];
   hadith: CanonRef[];
   tafsir: CanonRef[];
   notes?: string;
+  keywords?: string[];
   offline_ready?: boolean;
+}
+
+export interface SheetCite {
+  ref: CanonRef;
+  quote?: string;
+  my_note?: string;
 }
 
 export interface Sheet {
   id: string;
   title: string;
   created_at: string;
+  updated_at: string;
   notes_md: string;
-  cites: Array<{ ref: CanonRef; quote?: string; my_note?: string }>;
+  cites: SheetCite[];
 }
 
 export interface DownloadAsset {

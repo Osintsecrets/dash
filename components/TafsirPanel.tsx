@@ -49,7 +49,7 @@ export function TafsirPanel({ works, surah, ayah }: TafsirPanelProps) {
             <article key={segment.id} className="rounded-xl border border-slate-800/70 p-4">
               <p>{segment.excerpt}</p>
               <p className="mt-2 text-xs text-slate-400">
-                Source: {segment.sources.map((src) => src.attribution).join(' | ')}
+                Source: {segment.sources.map((src) => src.attribution ?? src.source_id).join(' | ')}
               </p>
             </article>
           ))}
