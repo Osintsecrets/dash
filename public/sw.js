@@ -16,7 +16,7 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  if (url.pathname.startsWith('/data/')) {
+  if (url.pathname.includes('/data/')) {
     return;
   }
   event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));

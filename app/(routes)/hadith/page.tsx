@@ -26,7 +26,7 @@ export default function HadithPage() {
     let cancelled = false;
     (async () => {
       try {
-        const response = await fetch('/data/hadith/bukhari/book-67.json');
+        const response = await fetch('data/hadith/bukhari/book-67.json');
         if (!response.ok) return;
         const payload = await response.json();
         if (!cancelled) {

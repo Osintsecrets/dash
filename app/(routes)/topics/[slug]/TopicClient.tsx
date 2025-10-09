@@ -45,7 +45,7 @@ export function TopicClient({ slug, initialTopic }: TopicClientProps) {
           const existing = await getAyah(surah, ayah);
           if (existing) return existing;
           try {
-            const response = await fetch(`/data/quran/surah-${String(surah).padStart(3, '0')}.json`);
+            const response = await fetch(`data/quran/surah-${String(surah).padStart(3, '0')}.json`);
             if (!response.ok) return null;
             const payload = await response.json();
             const match = (payload.ayahs ?? []).find((item: any) => item.ayah === ayah);
@@ -74,7 +74,7 @@ export function TopicClient({ slug, initialTopic }: TopicClientProps) {
           const existing = await getHadith(collection, book, number);
           if (existing) return existing;
           try {
-            const response = await fetch(`/data/hadith/${collection}/book-${book}.json`);
+            const response = await fetch(`data/hadith/${collection}/book-${book}.json`);
             if (!response.ok) return null;
             const payload = await response.json();
             const match = (payload.items ?? []).find((item: any) => item.number === number);
@@ -104,7 +104,7 @@ export function TopicClient({ slug, initialTopic }: TopicClientProps) {
           const existing = await getTafsir(work_id, surah, ayah);
           if (existing) return existing;
           try {
-            const response = await fetch(`/data/tafsir/${work_id}/${String(surah).padStart(3, '0')}.json`);
+            const response = await fetch(`data/tafsir/${work_id}/${String(surah).padStart(3, '0')}.json`);
             if (!response.ok) return null;
             const payload = await response.json();
             const match = (payload.segments ?? []).find((item: any) => {
