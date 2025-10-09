@@ -121,11 +121,14 @@ function createSnippet(text: string, query: string) {
 
 export async function search(query: string) {
   const index = await buildIndex();
-  const results = index.search(query, { boost: { title: 2 } }) as SearchResult<SearchDoc>[];
-  return results.map((result) => ({
-    ...result,
-    snippet: createSnippet((result as any).text ?? '', query)
-  }));
+  const results = index.search(query, { boost: { title: 2 } }) as SearchResult[];
+  return results.map((result) => {
+    const text = (result as SearchResult & { text?: string }).text ?? '';
+    return {
+      ...result,
+      snippet: createSnippet(text, query)
+    };
+  });
 }
 
 export function clearIndex() {

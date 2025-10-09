@@ -5,12 +5,24 @@ import { useRouter } from 'next/navigation';
 import { useCommandPalette, useSearch } from '@/lib/hooks';
 import { parseSlashCommand, pathForCommand } from '@/lib/utils';
 
+interface PaletteMeta {
+  path?: string;
+  surah?: number;
+  ayah?: number;
+  q?: { surah?: number; ayah?: number };
+  collection?: string;
+  book?: number;
+  number?: number;
+  slug?: string;
+  [key: string]: unknown;
+}
+
 interface PaletteResult {
   id: string;
   title: string;
   type: string;
   snippet?: string;
-  meta?: Record<string, unknown>;
+  meta?: PaletteMeta;
 }
 
 const HELP_RESULT: PaletteResult = {

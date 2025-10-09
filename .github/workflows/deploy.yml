@@ -17,12 +17,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
       - run: npm ci
-      - run: npm run build
-      - run: npm run export
+      - run: npm run build          # generates ./out with basePath '/dash'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
