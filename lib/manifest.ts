@@ -12,7 +12,7 @@ export type DataManifest = {
 };
 
 export async function getDataManifest(): Promise<DataManifest> {
-  const response = await fetch('/data/manifest.json', { cache: 'no-store' });
+  const response = await fetch('data/manifest.json', { cache: 'no-store' });
   if (!response.ok) {
     throw new Error(`Failed to load manifest (status ${response.status})`);
   }

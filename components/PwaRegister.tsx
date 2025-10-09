@@ -6,7 +6,7 @@ import { Workbox } from 'workbox-window';
 export function PwaRegister() {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
-      const wb = new Workbox('/sw.js');
+      const wb = new Workbox('sw.js');
       wb.register();
     }
   }, []);
