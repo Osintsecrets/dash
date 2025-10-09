@@ -21,7 +21,7 @@ export default function ReadPage() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
           {SURAHS.map((surah) => (
             <GlowButton key={surah.n} asChild>
-              <Link href={`/read/${surah.n}/1/`}>{surah.n}. {surah.translit}</Link>
+              <Link href={`/read/${surah.n}/1/` as const}>{surah.n}. {surah.translit}</Link>
             </GlowButton>
           ))}
         </div>
