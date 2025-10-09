@@ -63,6 +63,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
           <CommandPalette />
         </ToastProvider>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}`,
+          }}
+        />
       </body>
     </html>
   );

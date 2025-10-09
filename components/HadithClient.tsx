@@ -27,7 +27,8 @@ export function HadithClient({ items }: HadithClientProps) {
     if (!trimmed) return items;
     return items.filter((item) => {
       const idLabel = `${item.collection} ${item.book}:${item.number}`.toLowerCase();
-      const text = [item.arabic, ...item.translations.map((t) => t.text)].join(' ').toLowerCase();
+      const translationTexts = (item.translations ?? []).map((t) => t.text);
+      const text = [item.arabic ?? '', ...translationTexts].join(' ').toLowerCase();
       return idLabel.includes(trimmed) || text.includes(trimmed);
     });
   }, [items, query]);

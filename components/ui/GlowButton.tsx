@@ -17,11 +17,12 @@ export function GlowButton({ className, disabled, children, asChild = false, typ
   );
 
   if (asChild && isValidElement(children)) {
-    return cloneElement(children, {
-      ...props,
-      className: cn(classes, children.props.className),
+    const child = children as React.ReactElement<{ className?: string }>;
+    return cloneElement(child, {
+      ...(props as Record<string, unknown>),
+      className: cn(classes, child.props.className),
       'aria-disabled': disabled || undefined
-    });
+    } as Record<string, unknown>);
   }
 
   return (

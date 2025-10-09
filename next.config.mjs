@@ -2,14 +2,10 @@
 const isProd = process.env.NODE_ENV === 'production';
 const basePath = isProd ? '/dash' : '';
 
-const nextConfig = {
-  output: 'export',
-  basePath,
-  assetPrefix: `${basePath}/`,
-  images: { unoptimized: true },
+export default {
+  output: 'export',               // static export
+  basePath,                       // required for /dash
+  assetPrefix: basePath + '/',    // ensure assets resolve under /dash
+  images: { unoptimized: true },  // export-friendly
   trailingSlash: true,
-  experimental: {
-    typedRoutes: true
-  }
 };
-export default nextConfig;

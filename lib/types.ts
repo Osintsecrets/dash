@@ -12,6 +12,7 @@ export interface QuranTranslation {
   work_id: string;
   lang: string;
   text: string;
+  source_url?: string;
 }
 
 export interface QuranAyah {
